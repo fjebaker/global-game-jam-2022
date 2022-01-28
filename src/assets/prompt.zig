@@ -39,20 +39,3 @@ pub fn buttonPrompt(options: [3][] const u8) Prompt {
         .buttons = &btns
     };
 }
-
-pub fn drawPrompt(options: [2][] const u8) void {
-    w4.DRAW_COLORS.* = 0x42;
-    w4.rect(
-        X_OFFSET, 
-        PROMPT_HEIGHT, 
-        SCREEN_SIZE - 2 * X_OFFSET, 
-        PROMPT_HEIGHT - 2 * X_OFFSET
-    );
-
-    w4.DRAW_COLORS.* = 0x24;
-    for (options) |opt| {
-        w4.text(">", X_OFFSET, PROMPT_HEIGHT);
-        w4.text(opt, X_OFFSET + 10, PROMPT_HEIGHT);
-    }
-}
-
