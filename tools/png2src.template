@@ -1,0 +1,7 @@
+{{#sprites}}
+// {{name}}
+pub const width: i32 = {{width}};
+pub const height: i32 = {{height}};
+pub const flags: u32 = {{flags}}; // {{flagsHumanReadable}}
+pub const data = [{{length}}]u8{ {{bytes}} };
+{{/sprites}}
