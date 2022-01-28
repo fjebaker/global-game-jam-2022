@@ -8,6 +8,7 @@ const X_OFFSET: u8 = 2;
 pub const Prompt = struct {
     selection : u8 = 0,
     buttons : [] const buttons.Button,
+    num_buttons : u8,
 
     pub fn draw(self: * const @This()) void {
         // draw colour for the outline of the prompt
@@ -28,6 +29,22 @@ pub const Prompt = struct {
             );
         }
     }
+
+    pub fn incSelection(self: * @This()) void {
+        if (self.selection + 1 >= self.num_buttons) {
+            // do nothing
+        } else {
+            self.selection += 1;
+        }
+    }
+
+    pub fn decSelection(self: * @This()) void {
+        if (self.selection - 1 < 0) {
+            // do nothing
+        } else {
+            self.selection -= 1;
+        }
+    }
 };
 
 pub fn buttonPrompt(options: [3][] const u8) Prompt {
@@ -36,6 +53,7 @@ pub fn buttonPrompt(options: [3][] const u8) Prompt {
         btns[i] = buttons.Button{.text = opt};
     }
     return Prompt{
-        .buttons = &btns
+        .buttons = &btns,
+        .num_buttons = 3
     };
 }
