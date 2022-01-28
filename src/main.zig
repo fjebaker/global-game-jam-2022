@@ -12,7 +12,7 @@ export fn start() void {
         0x00DDDDDD,
         0x00FFFF00,
         0x00222222,
-        0x00FF0000,
+        0x00999999,
     };
     game_state = .ART_SANDBOX;
 }
