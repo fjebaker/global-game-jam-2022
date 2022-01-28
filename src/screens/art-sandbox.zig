@@ -2,6 +2,7 @@ const w4 = @import("../wasm4.zig");
 const boris = @import("../assets/boris.zig");
 const flag = @import("../assets/flag.zig");
 const press = @import("../assets/press.zig");
+const guest = @import("../assets/guest.zig");
 
 var art_ticks: u32 = 0;
 
@@ -40,6 +41,20 @@ pub fn update() void {
             press.width, // Assumes stride and width are equal
             press.flags
         );
+    }
+
+    // XXX: ``guest`` colors are weird
+    w4.DRAW_COLORS.* = 0x0430;
+    for ([_]i32{1, 2, 3, 4}) |i| {
+        w4.blitSub(
+            &guest.data,
+            30 + i * 20, 100, // x, y
+            guest.height, guest.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            guest.width, // Assumes stride and width are equal
+            guest.flags
+        );
+
     }
 
     art_ticks += 1;
