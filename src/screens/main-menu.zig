@@ -1,5 +1,5 @@
 const w4 = @import("../wasm4.zig");
 
-pub fn drawMenu() void {
+pub fn update() void {
     w4.text("Across Party\nLines", 32, 32);
 }
