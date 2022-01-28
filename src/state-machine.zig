@@ -5,6 +5,8 @@ pub const State = enum {
     AT_PRESS_CONFERENCE,
     AT_HOUSE_OF_COMMONS,
     SUE_GRAY,
-    PAUSED_SCREEN
+    PAUSED_SCREEN,
+    // XXX: debug stuff
+    ART_SANDBOX,
 };
 
