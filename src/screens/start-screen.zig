@@ -8,9 +8,22 @@ const pavement = @import("../assets/pavement.zig");
 const title = @import("../assets/title.zig");
 const pab = @import("../assets/press_any_button.zig");
 
-var start_ticks: u32 = 0;
 
-pub fn update() void {
+const gamepad = @import("../gamepad.zig");
+const statemachine = @import("../state-machine.zig");
+
+var start_ticks: u32 = 0;
+pub fn handleInput( state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void 
+{
+    if (pl.isPressed(w4.BUTTON_DOWN) or pl.isPressed(w4.BUTTON_UP) or pl.isPressed(w4.BUTTON_LEFT) or pl.isPressed(w4.BUTTON_RIGHT) or pl.isPressed(w4.BUTTON_1) or pl.isPressed(w4.BUTTON_2))
+        {
+            state.screen = .AT_PARTY;
+        }
+}
+
+
+pub fn update(state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+    handleInput(state,pl);
     var xOff: u32 = 0;
     if (start_ticks % 20 > 10) {
         xOff = 16;

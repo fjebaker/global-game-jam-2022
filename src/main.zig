@@ -55,7 +55,7 @@ export fn update() void {
         .AT_PARTY => partystate.update(&state, &player),
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .ART_SANDBOX => artsandbox.update(),
-        .START_SCREEN => startscreen.update(),
+        .START_SCREEN => startscreen.update(&state, &player),
         else => {},
     }
     titletheme.mainMenuMusic();
