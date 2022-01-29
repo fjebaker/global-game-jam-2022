@@ -18,6 +18,7 @@ var player = gamepad.GamePad{};
 // game states
 var state: statemachine.StateMachine = undefined;
 var partystate: party.PartyState = undefined;
+var menustate: mainmenu.MenuState = undefined;
 
 export fn start() void {
     w4.PALETTE.* = .{
@@ -38,7 +39,7 @@ export fn start() void {
 
 export fn update() void {
     switch (state.screen) {
-        .IN_MENU => mainmenu.update(),
+        .IN_MENU => menustate.update(&state, &player),
         .AT_PARTY => partystate.update(&state, &player),
         .ART_SANDBOX => artsandbox.update(),
         .START_SCREEN => startscreen.update(),
