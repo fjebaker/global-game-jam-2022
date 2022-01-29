@@ -14,7 +14,6 @@ const artsandbox = @import("screens/art-sandbox.zig");
 //var allocator: std.mem.Allocator = undefined;
 
 var player = gamepad.GamePad{};
-var game_state: state.State = .START_SCREEN;
 
 // game states
 var state: statemachine.StateMachine = undefined;
