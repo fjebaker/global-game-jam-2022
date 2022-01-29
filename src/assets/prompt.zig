@@ -1,5 +1,6 @@
 const w4 = @import("../wasm4.zig");
 const buttons = @import("button.zig");
+const Situation = @import("../assets/situation.zig").Situation;
 
 const PROMPT_HEIGHT: u8 = 100;
 const SCREEN_SIZE: u8 = 160;
@@ -44,9 +45,9 @@ pub const Prompt = struct {
     }
 };
 
-pub fn buttonPrompt(options: [3][]const u8) Prompt {
+pub fn buttonPrompt(situ: Situation) Prompt {
     var btns: [3]buttons.Button = undefined;
-    for (options) |opt, i| {
+    for (situ.options) |opt, i| {
         btns[i] = buttons.Button{ .text = opt };
     }
     return Prompt{ .buttons = &btns, .num_buttons = 3 };
