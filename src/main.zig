@@ -3,6 +3,7 @@ const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
 const titletheme = @import("music/title-theme.zig");
 const party = @import("screens/party.zig");
+const startscreen = @import("screens/start-screen.zig");
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
 
@@ -13,6 +14,7 @@ const artsandbox = @import("screens/art-sandbox.zig");
 //var allocator: std.mem.Allocator = undefined;
 
 var player = gamepad.GamePad{};
+var game_state: state.State = .START_SCREEN;
 
 // game states
 var state: statemachine.StateMachine = undefined;
@@ -33,9 +35,6 @@ export fn start() void {
     // allocate all needed game memory
     state = statemachine.StateMachine.init();
     partystate = party.PartyState.init();
-
-    // set the first scren
-    state.screen = .AT_PARTY;
 }
 
 export fn update() void {
@@ -43,6 +42,7 @@ export fn update() void {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => partystate.update(&state, &player),
         .ART_SANDBOX => artsandbox.update(),
+        .START_SCREEN => startscreen.update(),
         else => {},
     }
     titletheme.mainMenuMusic();
