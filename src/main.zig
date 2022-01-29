@@ -3,7 +3,7 @@ const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
 const titletheme = @import("music/title-theme.zig");
 const party = @import("screens/party.zig");
-const gamepad = @import("./gamepad.zig");
+const gamepad = @import("gamepad.zig");
 const std = @import("std");
 
 const artsandbox = @import("screens/art-sandbox.zig");
