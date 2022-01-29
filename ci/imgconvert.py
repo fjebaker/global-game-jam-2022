@@ -15,13 +15,11 @@ def convert(directory, w4exe="w4"):
     """ Convert all the PNG files in a directory to Zig source code.
     """
     pngpaths = glob.glob(os.path.join(directory, "*.png"))
-    for path in pngpaths:
-        name = os.path.basename(path)
-        print(f"Converting {name}")
+    outpath = os.path.join(directory, "sprites.zig")
+    print(f"Converting art in {directory}")
 
-        outpath = os.path.splitext(path)[0] + ".zig"
-        cmd = [w4exe, "png2src", "-t", TEMPLATE, "-o", outpath, path]
-        subprocess.check_call(cmd)
+    cmd = [w4exe, "png2src", "-t", TEMPLATE, "-o", outpath] + pngpaths
+    subprocess.check_call(cmd)
 
     print(f"Running `zig fmt`")
     cmd = ["zig", "fmt", directory]

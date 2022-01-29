@@ -44,9 +44,6 @@ export fn start() void {
     state = statemachine.StateMachine.init();
     partystate = party.PartyState.init(&rnd);
     pressconstate = presscon.PressState.init(&rnd);
-
-    // set the first scren
-    state.screen = .AT_PARTY;
 }
 
 export fn update() void {

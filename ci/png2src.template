@@ -1,7 +1,11 @@
+const Image = struct {width: i32, height: i32, flags: u32 };
+
 {{#sprites}}
 // {{name}}
-pub const width: i32 = {{width}};
-pub const height: i32 = {{height}};
-pub const flags: u32 = {{flags}}; // {{flagsHumanReadable}}
-pub const data = [{{length}}]u8{ {{bytes}} };
+pub const {{name}} = Image {
+    .width = {{width}},
+    .height = {{height}},
+    .flags = {{flags}}, // {{flagsHumanReadable}}
+};
+pub const {{name}}_bits = [{{length}}]u8{ {{bytes}} };
 {{/sprites}}
