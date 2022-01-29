@@ -5,8 +5,6 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
-const RndGen = std.rand.DefaultPrng;
-
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
 var prompt: prompts.Prompt = undefined;
@@ -23,14 +21,17 @@ pub const PartyState = struct {
         for (self.choices) |*i| {
             i.* = 0;
         }
+        for (self.situation_history) |*i| {
+            i.* = 0;
+        }
         self.round = 0;
     }
 
-    pub fn init() PartyState {
+    pub fn init(rnd: *std.rand.Random) PartyState {
         var ps = PartyState{
             // pass temporary situation
             .prompt = prompts.buttonPrompt(),
-            .rnd = &RndGen.init(1).random(),
+            .rnd = rnd,
         };
 
         ps.setRandomSituation();
@@ -42,10 +43,13 @@ pub const PartyState = struct {
         self.prompt.shuffleOrder(self.rnd);
         self.newRandomWeights();
 
+        self.prompt.selection = 0;
         //self.situation_history[self.round] = i;
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+        w4.DRAW_COLORS.* = 0x24;
+        w4.text("PARTY", 0, 0);
         self.handleInput(state, pl);
         self.prompt.update();
     }
@@ -82,16 +86,14 @@ pub const PartyState = struct {
             var choice = self.prompt.getSelection();
             self.choices[self.round] = choice;
 
-            // update total score
+            // update buzzing score
             state.buzzing += self.weights[choice];
-            // log it for now
-            w4.tracef("%d", state.buzzing);
 
             // update round
             self.round += 1;
 
             if (self.round >= 3) {
-                state.screen = .IN_MENU;
+                state.screen = .AT_PRESS_CONFERENCE;
             } else {
                 // new situation
                 self.setRandomSituation();
