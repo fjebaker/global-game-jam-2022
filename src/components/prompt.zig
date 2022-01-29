@@ -14,20 +14,30 @@ pub const Prompt = struct {
     buttons: [3]buttons.Button = [_]buttons.Button{ buttons.Button{}, buttons.Button{}, buttons.Button{} },
     order: [3]u8 = [_]u8{ 0, 1, 2 },
     situation: *const Situation = undefined,
+    disallow: u8 = 255,
 
-    pub fn update(self: *const @This()) void {
+    pub fn update(self: *@This()) void {
+        // sanity
+        if (self.selection == self.disallow) {
+            self.selection += 1;
+        }
         // draw colour for the outline of the prompt
         w4.DRAW_COLORS.* = 0x42;
         w4.rect(X_OFFSET, PROMPT_HEIGHT, SCREEN_SIZE - 2 * X_OFFSET, PROMPT_HEIGHT);
 
         textWrap(self.situation.prompt, X_OFFSET, PROMPT_HEIGHT - 5);
 
-        // set draw colour for the buttons
-        w4.DRAW_COLORS.* = 0x24;
-
         var i: u8 = 0;
         for (self.order) |btn_index, index| {
             i = @intCast(u8, index);
+
+            // set draw colour for the buttons
+            if (i == self.disallow) {
+                w4.DRAW_COLORS.* = 0x23;
+            } else {
+                w4.DRAW_COLORS.* = 0x24;
+            }
+
             self.buttons[btn_index].draw(
             // button location fixed for now
             X_OFFSET * 4, PROMPT_HEIGHT + i * 17 + X_OFFSET * 4, i == self.selection);
@@ -53,7 +63,13 @@ pub const Prompt = struct {
         if (self.selection >= 2) { // maximum buttons magic
             // do nothing
         } else {
-            self.selection += 1;
+            if (self.selection + 1 == self.disallow) {
+                if (self.selection + 2 < 3) {
+                    self.selection += 2;
+                } // else do nothing
+            } else {
+                self.selection += 1;
+            }
         }
     }
 
@@ -61,7 +77,13 @@ pub const Prompt = struct {
         if (self.selection <= 0) {
             // do nothing
         } else {
-            self.selection -= 1;
+            if (self.selection - 1 == self.disallow) {
+                if (self.selection - 2 >= 0 and self.selection - 2 != 255) {
+                    self.selection -= 2;
+                } // else do nothing
+            } else {
+                self.selection -= 1;
+            }
         }
     }
 };
