@@ -9,8 +9,6 @@ const startscreen = @import("screens/start-screen.zig");
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
 
-const artsandbox = @import("screens/art-sandbox.zig");
-
 const RndGen = std.rand.DefaultPrng;
 
 // allocation buffer
@@ -51,7 +49,6 @@ export fn update() void {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => partystate.update(&state, &player),
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
-        .ART_SANDBOX => artsandbox.update(),
         .START_SCREEN => startscreen.update(&state, &player),
         else => {},
     }

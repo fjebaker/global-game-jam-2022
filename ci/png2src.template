@@ -1,11 +1,17 @@
-const Image = struct {width: i32, height: i32, flags: u32 };
+const Image = struct {
+    width: i32,
+    height: i32,
+    flags: u32,
+    data: [*]u8,
+};
 
 {{#sprites}}
 // {{name}}
+var {{name}}_bits = [_]u8{ {{bytes}} };
 pub const {{name}} = Image {
     .width = {{width}},
     .height = {{height}},
     .flags = {{flags}}, // {{flagsHumanReadable}}
+    .data = &{{name}}_bits,
 };
-pub const {{name}}_bits = [{{length}}]u8{ {{bytes}} };
 {{/sprites}}

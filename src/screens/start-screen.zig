@@ -20,37 +20,37 @@ pub fn update(state: *statemachine.StateMachine, pl: *const gamepad.GamePad) voi
     }
 
     w4.DRAW_COLORS.* = 0x4320;
-    w4.blit(&sprites.title_bits, 7, 0, // x, y
+    w4.blit(sprites.title.data, 7, 0, // x, y
         sprites.title.width, sprites.title.height, sprites.title.flags);
 
-    w4.blitSub(&sprites.flag_bits, 79, 72 - (32 / 2), // x, y
+    w4.blitSub(sprites.flag.data, 79, 72 - (32 / 2), // x, y
         sprites.flag.height, sprites.flag.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         sprites.flag.width, // Assumes stride and width are equal
         sprites.flag.flags);
 
     for ([_]i32{ 0, 1, 3, 4 }) |i| {
-        w4.blit(&sprites.house_bits, i * (32), 72, sprites.house.width, sprites.house.height, sprites.house.flags);
+        w4.blit(sprites.house.data, i * (32), 72, sprites.house.width, sprites.house.height, sprites.house.flags);
     }
 
-    w4.blit(&sprites.no_10_bits, 72 - (sprites.no_10.width / 4), 72, // x, y
-        sprites.no_10.width, sprites.no_10.height, sprites.no_10.flags);
+    w4.blit(sprites.noten.data, 72 - (sprites.noten.width / 4), 72, // x, y
+        sprites.noten.width, sprites.noten.height, sprites.noten.flags);
 
     w4.DRAW_COLORS.* = 0x2340;
     for ([_]i32{ 0, 1, 2, 3, 4 }) |i| {
-        w4.blit(&sprites.pavement_bits, i * (32), 100, sprites.pavement.height, sprites.pavement.height, sprites.pavement.flags);
+        w4.blit(sprites.pavement.data, i * (32), 100, sprites.pavement.height, sprites.pavement.height, sprites.pavement.flags);
     }
 
     w4.DRAW_COLORS.* = 0x2430;
-    w4.blitSub(&sprites.boris_bits, 45, 78 + (32 / 2), // x, y
+    w4.blitSub(sprites.boris.data, 45, 78 + (32 / 2), // x, y
         sprites.boris.height, sprites.boris.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         sprites.boris.width, // Assumes stride and width are equal
         sprites.boris.flags);
 
     w4.DRAW_COLORS.* = 0x0020;
-    w4.blit(&sprites.press_any_button_bits, 53, 140, // x, y
-        sprites.press_any_button.width, sprites.press_any_button.height, sprites.press_any_button.flags);
+    w4.blit(sprites.pab.data, 53, 140, // x, y
+        sprites.pab.width, sprites.pab.height, sprites.pab.flags);
 
     start_ticks += 1;
 }
