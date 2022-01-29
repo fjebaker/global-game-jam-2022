@@ -9,8 +9,8 @@ const std = @import("std");
 const artsandbox = @import("screens/art-sandbox.zig");
 
 // allocation buffer
-var buffer: [1028]u8 = undefined;
-var allocator: std.mem.Allocator = undefined;
+//var buffer: [1028]u8 = undefined;
+//var allocator: std.mem.Allocator = undefined;
 
 var player = gamepad.GamePad{};
 
@@ -23,18 +23,17 @@ export fn start() void {
     w4.PALETTE.* = .{
         // XRGB
         0x00DDDDDD,
-        0x00FFFF00,
-        0x00222222,
-        0x00999999,
+        0x00000000,
+        0x009E9E9E,
+        0x00FFFFFF,
     };
 
     // init the allocation buffer
-    var fba = std.heap.FixedBufferAllocator.init(&buffer);
-    allocator = fba.allocator();
+    // var fba = std.heap.FixedBufferAllocator.init(&buffer);
+    // allocator = fba.allocator();
     // allocate all needed game memory
-    state = statemachine.StateMachine.init(allocator);
-    partystate = party.PartyState.init(allocator);
-    menustate = mainmenu.MenuState.init(allocator);
+    state = statemachine.StateMachine.init();
+    partystate = party.PartyState.init();
 
     // set the first scren
     state.screen = .IN_MENU; 
