@@ -17,3 +17,7 @@ def convert(assets_dir, w4exe="w4"):
         outpath = os.path.splitext(path)[0] + ".zig"
         cmd = [w4exe, "png2src", "-t", TEMPLATE, "-o", outpath, path]
         subprocess.check_call(cmd)
+
+    print(f"Running `zig fmt`")
+    cmd = ["zig", "fmt", assets_dir]
+    subprocess.check_call(cmd)

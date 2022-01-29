@@ -17,7 +17,7 @@ jobs:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
 
       - name: Install EDM Environment
-        run: edm --config ci/edm.yaml install -y click
+        run: edm --config ci/edm.yaml install -y click pillow
 
       - name: Setup Zig
         uses: goto-bus-stop/setup-zig@v1
