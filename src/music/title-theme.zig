@@ -51,9 +51,9 @@ var bassNotes = [_]note.Note{
     note.Note{ .sfreq = f3, .efreq = g3, .length = 240 },
 };
 
-var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .tone = &melodyTone };
-var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone };
-var bass = tune.Tune{ .notes = &bassNotes, .numNotes = bassNotes.len, .tone = &bassTone };
+var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .tone = &melodyTone, .introEndNote = 4 };
+var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone, .introEndNote = 8 };
+var bass = tune.Tune{ .notes = &bassNotes, .numNotes = bassNotes.len, .tone = &bassTone, .introEndNote = 4 };
 
 pub fn mainMenuMusic() void {
     melody.play();

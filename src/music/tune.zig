@@ -5,13 +5,16 @@ pub const Tune = struct {
     notes: [*]note.Note,
     numNotes: u16,
     tone: *tone.Tone,
+    introEndNote: u16,
     frame: u16 = 0,
     currLength: u8 = 0,
     currIndex: u16 = 0,
 
     pub fn play(self: *Tune) void {
         if (self.frame == self.currLength) {
-            self.currIndex = self.currIndex % self.numNotes;
+            if(self.currIndex == self.numNotes) {
+                self.currIndex = self.introEndNote;
+            }
             const newNote = self.notes[self.currIndex];
             self.currLength = newNote.length;
             self.tone.*.sfreq = newNote.sfreq;
