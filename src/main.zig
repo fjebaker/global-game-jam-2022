@@ -4,6 +4,8 @@ const mainmenu = @import("screens/main-menu.zig");
 const titletheme = @import("music/title-theme.zig");
 const party = @import("screens/party.zig");
 const presscon = @import("screens/press-conference.zig");
+const startscreen = @import("screens/start-screen.zig");
+
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
 
@@ -53,6 +55,7 @@ export fn update() void {
         .AT_PARTY => partystate.update(&state, &player),
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .ART_SANDBOX => artsandbox.update(),
+        .START_SCREEN => startscreen.update(),
         else => {},
     }
     titletheme.mainMenuMusic();

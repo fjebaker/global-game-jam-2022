@@ -2,7 +2,7 @@ import os
 
 import click
 
-from .imgconvert import convert, normalize
+from .imgconvert import convert, normalize, swap_color
 from .imgpalette import show_info, show_directory_info
 
 CI_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -40,6 +40,18 @@ def image_info(path, all):
 @cli.command("img-norm")
 def image_normalize():
     normalize(ASSETS_DIR)
+
+
+@cli.command("img-swap-color")
+@click.argument("path", type=str)
+@click.option("--from", "from_color", type=str)
+@click.option("--to", "to_color", type=str)
+def image_color_swap(path, from_color, to_color):
+    n = 4 if len(from_color) == 10 else 3
+    getcolor = (lambda x: tuple(map(int, int(x, base=16).to_bytes(n, "big"))))
+    from_color = getcolor(from_color)
+    to_color = getcolor(to_color)
+    swap_color(path, from_color, to_color)
 
 
 if __name__ == "__main__":

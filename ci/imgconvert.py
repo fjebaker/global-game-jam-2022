@@ -53,3 +53,16 @@ def normalize(directory):
     remapped = remap_palettes(imgs, reordered)
     for img in remapped:
         img.save(img.filename)
+
+
+def swap_color(path, from_color, to_color):
+    """ Replace all pixels of one color with pixels of another color.
+    """
+    img = Image.open(path)
+    for x in range(img.width):
+        for y in range(img.height):
+            pos = (x, y)
+            pixel = img.getpixel(pos)
+            if pixel == from_color:
+                img.putpixel(pos, to_color)
+    img.save(path)
