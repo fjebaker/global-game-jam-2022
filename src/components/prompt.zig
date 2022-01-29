@@ -13,8 +13,8 @@ const X_OFFSET: u8 = 2;
 
 pub const Prompt = struct {
     selection: u8 = 0,
-    buttons: std.ArrayListAligned(buttons.Button, null),
-    order: [3] u8 = [_]u8{0,1,2},
+    buttons: [3]buttons.Button = [_]buttons.Button{ buttons.Button{}, buttons.Button{}, buttons.Button{} },
+    order: [3]u8 = [_]u8{ 0, 1, 2 },
     situation: Situation = .{},
 
     pub fn update(self: *const @This()) void {
@@ -30,25 +30,29 @@ pub const Prompt = struct {
         var i: u8 = 0;
         for (self.order) |btn_index, index| {
             i = @intCast(u8, index);
-            self.buttons.items[btn_index].draw(
+            self.buttons[btn_index].draw(
             // button location fixed for now
             X_OFFSET * 4, PROMPT_HEIGHT + i * 17 + X_OFFSET * 4, i == self.selection);
         }
     }
 
-    pub fn shuffleOrder(self: * @This(), rnd: *Xoshiro256) void {
+    pub fn shuffleOrder(self: *@This(), rnd: *Xoshiro256) void {
         rnd.random().shuffle(u8, &self.order);
+    }
+
+    pub fn getSelection(self: *const @This()) u8 {
+        return self.order[self.selection];
     }
 
     pub fn setSituation(self: *@This(), situation: Situation) void {
         for (situation.options) |s, i| {
-            self.buttons.items[i] = buttons.Button{ .text = s };
+            self.buttons[i].text = s;
         }
         self.situation = situation;
     }
 
     pub fn incSelection(self: *@This()) void {
-        if (self.selection >= self.buttons.capacity - 1) {
+        if (self.selection >= 2) { // maximum buttons magic
             // do nothing
         } else {
             self.selection += 1;
@@ -64,16 +68,6 @@ pub const Prompt = struct {
     }
 };
 
-pub fn buttonPrompt(allocator: std.mem.Allocator) Prompt {
-    var btns = std.ArrayList(buttons.Button).initCapacity(allocator, 3) catch {
-        // it wont fail (~;
-        return undefined;
-    };
-
-    // init state
-    btns.append(.{}) catch {};
-    btns.append(.{}) catch {};
-    btns.append(.{}) catch {};
-
-    return Prompt{ .buttons = btns };
+pub fn buttonPrompt() Prompt {
+    return Prompt{};
 }
