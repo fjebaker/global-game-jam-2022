@@ -6,7 +6,6 @@ const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
 const RndGen = std.rand.DefaultPrng;
-const Xoshiro256 = std.rand.Xoshiro256;
 
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
@@ -14,11 +13,11 @@ var prompt: prompts.Prompt = undefined;
 
 pub const PartyState = struct {
     prompt: prompts.Prompt,
-    situation_history: [3]u8 = [_]u8{ 0, 0, 0 },
-    choices: [3]u8 = [_]u8{ 0, 0, 0 },
-    weights: [3]u8 = [_]u8{ 0, 0, 0 },
+    situation_history: [3]u8 = [3]u8{ 0, 0, 0 },
+    choices: [3]u8 = [3]u8{ 0, 0, 0 },
+    weights: [3]u8 = [3]u8{ 0, 0, 0 },
     round: u8 = 0,
-    rnd: *Xoshiro256,
+    rnd: *std.rand.Random,
 
     pub fn reset(self: *@This()) void {
         for (self.choices) |*i| {
@@ -31,7 +30,7 @@ pub const PartyState = struct {
         var ps = PartyState{
             // pass temporary situation
             .prompt = prompts.buttonPrompt(),
-            .rnd = &RndGen.init(1),
+            .rnd = &RndGen.init(1).random(),
         };
 
         ps.setRandomSituation();
@@ -43,7 +42,7 @@ pub const PartyState = struct {
         self.prompt.shuffleOrder(self.rnd);
         self.newRandomWeights();
 
-        self.situation_history[self.round] = i;
+        //self.situation_history[self.round] = i;
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
@@ -58,11 +57,13 @@ pub const PartyState = struct {
 
     fn newRandomWeights(self: *@This()) void {
         // generate low weight 5-10
-        self.weights[0] = self.rnd.random().intRangeLessThan(u8, 5, 11);
+        self.weights[0] = 
+            self.rnd.intRangeLessThan(u8, 5, 11);
         // genereate medium weight 10-30
-        self.weights[1] = self.rnd.random().intRangeLessThan(u8, 10, 31);
+        self.weights[1] =
+            self.rnd.intRangeLessThan(u8, 10, 31);
         // generate high weight 30-50
-        self.weights[2] = self.rnd.random().intRangeLessThan(u8, 30, 51);
+        self.weights[2] = self.rnd.intRangeLessThan(u8, 30, 51);
     }
 
     fn newRandomSituationIndex(self: *@This()) u8 {
@@ -77,9 +78,7 @@ pub const PartyState = struct {
         //        break;
         //    }
         //}
-
-        const next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len);
-        w4.tracef("%d", next_i);
+        const next_i = self.rnd.intRangeLessThan(u8, 0, all_situations.len);
         return next_i;
     }
 
@@ -92,7 +91,21 @@ pub const PartyState = struct {
         }
         if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
-            self.choices[self.round] = self.prompt.getSelection();
+            var choice = self.prompt.getSelection();
+            self.choices[self.round] = choice;
+
+            //w4.trace("DEBUG");
+            w4.tracef("%d %d %d", @intCast(u32, self.weights[0]), @intCast(u32, self.weights[1]), @intCast(u32, self.weights[2]));
+            //w4.tracef("%d %d %d", @intCast(u32, self.choices[0]), @intCast(u32, self.choices[1]), @intCast(u32, self.choices[2]));
+
+
+            // update total score
+            // state.buzzing += self.weights[choice];
+            
+            //var buf: [8]u8 = undefined;
+            //_ = std.fmt.bufPrint(&buf, "{d}", .{state.buzzing}) catch {};
+            //w4.text(&buf, 0, 0);
+
             // update round
             self.round += 1;
 
