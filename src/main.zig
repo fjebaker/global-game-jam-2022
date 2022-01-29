@@ -51,6 +51,11 @@ export fn update() void {
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .AT_HOUSE_OF_COMMONS => parliament.update(&state, &player),
         .START_SCREEN => startscreen.update(&state, &player),
+        .ROUND_DONE => {
+            // tally score
+            // reset state and go again
+            state.screen = .AT_PARTY;
+        },
         else => {},
     }
     titletheme.mainMenuMusic();
