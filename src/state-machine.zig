@@ -31,6 +31,6 @@ pub const StateMachine = struct {
     }
 
     pub fn init() StateMachine {
-        return StateMachine{};
+        return StateMachine{ .buzzing = 0 };
     }
 };

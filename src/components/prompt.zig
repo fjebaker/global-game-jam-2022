@@ -36,8 +36,8 @@ pub const Prompt = struct {
         }
     }
 
-    pub fn shuffleOrder(self: *@This(), rnd: *Xoshiro256) void {
-        rnd.random().shuffle(u8, &self.order);
+    pub fn shuffleOrder(self: *@This(), rnd: *std.rand.Random) void {
+        rnd.shuffle(u8, &self.order);
     }
 
     pub fn getSelection(self: *const @This()) u8 {
