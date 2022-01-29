@@ -61,11 +61,9 @@ pub const PartyState = struct {
 
     fn newRandomWeights(self: *@This()) void {
         // generate low weight 5-10
-        self.weights[0] =
-            self.rnd.intRangeLessThan(u8, 5, 11);
+        self.weights[0] = self.rnd.intRangeLessThan(u8, 5, 11);
         // genereate medium weight 10-30
-        self.weights[1] =
-            self.rnd.intRangeLessThan(u8, 10, 31);
+        self.weights[1] = self.rnd.intRangeLessThan(u8, 10, 31);
         // generate high weight 30-50
         self.weights[2] = self.rnd.intRangeLessThan(u8, 30, 51);
     }
@@ -77,11 +75,9 @@ pub const PartyState = struct {
     fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         if (pl.isPressed(w4.BUTTON_DOWN)) {
             self.prompt.incSelection();
-        }
-        if (pl.isPressed(w4.BUTTON_UP)) {
+        } else if (pl.isPressed(w4.BUTTON_UP)) {
             self.prompt.decSelection();
-        }
-        if (pl.isPressed(w4.BUTTON_1)) {
+        } else if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
             var choice = self.prompt.getSelection();
             self.choices[self.round] = choice;

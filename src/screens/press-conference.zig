@@ -73,11 +73,9 @@ pub const PressState = struct {
     fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         if (pl.isPressed(w4.BUTTON_DOWN)) {
             self.prompt.incSelection();
-        }
-        if (pl.isPressed(w4.BUTTON_UP)) {
+        } else if (pl.isPressed(w4.BUTTON_UP)) {
             self.prompt.decSelection();
-        }
-        if (pl.isPressed(w4.BUTTON_1)) {
+        } else if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
             var choice = self.prompt.getSelection();
 

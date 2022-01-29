@@ -5,7 +5,7 @@ const std = @import("std");
 
 const textWrap = @import("wrapping-text.zig").textWrap;
 
-const PROMPT_HEIGHT: u8 = 100;
+const PROMPT_HEIGHT: u8 = 120;
 const SCREEN_SIZE: u8 = 160;
 const X_OFFSET: u8 = 2;
 
@@ -40,7 +40,7 @@ pub const Prompt = struct {
 
             self.buttons[btn_index].draw(
             // button location fixed for now
-            X_OFFSET * 4, PROMPT_HEIGHT + i * 17 + X_OFFSET * 4, i == self.selection);
+            X_OFFSET * 4, PROMPT_HEIGHT + i * 10 + X_OFFSET * 4, i == self.selection);
         }
     }
 
