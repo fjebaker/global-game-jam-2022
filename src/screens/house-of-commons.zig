@@ -32,7 +32,7 @@ pub const Parliament = struct {
         } };
     }
 
-    fn reset(self: * @This()) void {
+    fn reset(self: *@This()) void {
         self.timebar.value = SURVIVE_TIME;
         self.ticker = 0;
         self.px = SCREEN_SIZE / 2;
@@ -107,7 +107,7 @@ pub const Parliament = struct {
         }
     }
 
-    fn handleInput(self: * @This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+    fn handleInput(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         var button_pressed = false;
 
         // bounds check
