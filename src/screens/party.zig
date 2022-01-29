@@ -21,6 +21,9 @@ pub const PartyState = struct {
         for (self.choices) |*i| {
             i.* = 0;
         }
+        for (self.situation_history) |*i| {
+            i.* = 0;
+        }
         self.round = 0;
     }
 
