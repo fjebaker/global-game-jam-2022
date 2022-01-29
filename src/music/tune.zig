@@ -11,14 +11,15 @@ pub const Tune = struct {
 
     pub fn play(self: *Tune) void {
         if (self.frame == self.currLength) {
-            self.currIndex += 1;
             self.currIndex = self.currIndex % self.numNotes;
             const newNote = self.notes[self.currIndex];
             self.currLength = newNote.length;
             self.tone.*.sfreq = newNote.sfreq;
             self.tone.*.efreq = newNote.efreq;
+            self.tone.*.sustain = if (newNote.length > self.tone.*.release) newNote.length - self.tone.*.release else 0;
             self.tone.*.play();
             self.frame = 0;
+            self.currIndex += 1;
         }
         self.frame += 1;
     }
