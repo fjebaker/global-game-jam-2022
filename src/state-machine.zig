@@ -14,7 +14,7 @@ pub const Screens = enum {
 };
 
 pub const StateMachine = struct {
-    screen: Screens = .START_SCREEN,
+    screen: Screens = .IN_MENU,
 
     // player state
     buzzing: u32 = 0,
@@ -28,7 +28,7 @@ pub const StateMachine = struct {
         self.confidence = 0;
         self.totalscore = 0;
 
-        self.screen = .START_SCREEN;
+        self.screen = .IN_MENU;
     }
 
     pub fn init() StateMachine {

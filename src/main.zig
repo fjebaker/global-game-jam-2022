@@ -10,8 +10,8 @@ const std = @import("std");
 const artsandbox = @import("screens/art-sandbox.zig");
 
 // allocation buffer
-//var buffer: [1028]u8 = undefined;
-//var allocator: std.mem.Allocator = undefined;
+var buffer: [1028]u8 = undefined;
+var allocator: std.mem.Allocator = undefined;
 
 var player = gamepad.GamePad{};
 
@@ -30,11 +30,12 @@ export fn start() void {
     };
 
     // init the allocation buffer
-    // var fba = std.heap.FixedBufferAllocator.init(&buffer);
-    // allocator = fba.allocator();
+    var fba = std.heap.FixedBufferAllocator.init(&buffer);
+    allocator = fba.allocator();
     // allocate all needed game memory
     state = statemachine.StateMachine.init();
     partystate = party.PartyState.init();
+    menustate = mainmenu.MenuState.init(allocator);
 }
 
 export fn update() void {
