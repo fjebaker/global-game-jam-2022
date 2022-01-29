@@ -81,16 +81,14 @@ pub const PartyState = struct {
             var choice = self.prompt.getSelection();
             self.choices[self.round] = choice;
 
-            // update total score
+            // update buzzing score
             state.buzzing += self.weights[choice];
-            // log it for now
-            w4.tracef("%d", state.buzzing);
 
             // update round
             self.round += 1;
 
             if (self.round >= 3) {
-                state.screen = .IN_MENU;
+                state.screen = .AT_PRESS_CONFERENCE;
             } else {
                 // new situation
                 self.setRandomSituation();

@@ -5,7 +5,7 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
-const all_situations = @import("../assets/party-situations.zig").all_party_situations;
+const all_situations = @import("../assets/presscon-situations.zig").all_press_conference_situations;
 
 pub const PressState = struct {
     prompt: prompts.Prompt,
@@ -37,10 +37,12 @@ pub const PressState = struct {
         self.prompt.shuffleOrder(self.rnd);
         self.newRandomWeights();
 
+        self.prompt.selection = 0;
         //self.situation_history[self.round] = i;
     }
 
-    pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+    pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad, disallowed: []const u8) void {
+        self.prompt.disallow = disallowed[self.round];
         self.handleInput(state, pl);
         self.prompt.update();
     }
@@ -75,12 +77,10 @@ pub const PressState = struct {
         if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
             var choice = self.prompt.getSelection();
-            self.choices[self.round] = choice;
 
-            // update total score
-            state.buzzing += self.weights[choice];
+            // update confidence score
+            state.confidence += self.weights[choice];
             // log it for now
-            w4.tracef("%d", state.buzzing);
 
             // update round
             self.round += 1;

@@ -16,7 +16,7 @@ pub const Prompt = struct {
     buttons: [3]buttons.Button = [_]buttons.Button{ buttons.Button{}, buttons.Button{}, buttons.Button{} },
     order: [3]u8 = [_]u8{ 0, 1, 2 },
     situation: *const Situation = undefined,
-    disallow: u8 = 0,
+    disallow: u8 = 255,
 
     pub fn update(self: *@This()) void {
         // sanity

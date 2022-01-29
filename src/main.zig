@@ -51,6 +51,7 @@ export fn update() void {
     switch (state.screen) {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => partystate.update(&state, &player),
+        .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .ART_SANDBOX => artsandbox.update(),
         else => {},
     }
