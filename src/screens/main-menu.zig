@@ -6,8 +6,9 @@ const textWrap = @import("../components/wrapping-text.zig").textWrap;
 const gamepad = @import("../gamepad.zig");
 const statemachine = @import("../state-machine.zig");
 
-const boris = @import("../assets/boris.zig");
-const flag = @import("../assets/flag.zig");
+const sprites = @import("../assets/sprites.zig");
+const boris = sprites.boris;
+const flag = sprites.flag;
 
 const MENU_HEIGHT: u8 = 50;
 const SCREEN_SIZE: u8 = 160;
@@ -45,14 +46,14 @@ pub const Menu = struct {
         }
 
         w4.DRAW_COLORS.* = 0x4320;
-        w4.blitSub(&boris.data, 100, 32, // x, y
+        w4.blitSub(boris.data, 100, 32, // x, y
             boris.height, boris.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y
             boris.width, // Assumes stride and width are equal
             boris.flags);
 
         w4.DRAW_COLORS.* = 0x2430;
-        w4.blitSub(&flag.data, 120, 32, // x, y
+        w4.blitSub(flag.data, 120, 32, // x, y
             flag.height, flag.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y
             flag.width, // Assumes stride and width are equal
