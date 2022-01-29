@@ -26,14 +26,6 @@ export fn update() void {
             mainmenu.update();
             titletheme.mainMenuMusic();
         },
-        .ART_SANDBOX => {
-            artsandbox.update();
-            titletheme.mainMenuMusic();
-        },
-        .IN_MENU => {
-            mainmenu.update();
-            titletheme.mainMenuMusic();
-        },
         .AT_PARTY => {
             party.doRound(&player);
             titletheme.mainMenuMusic();
