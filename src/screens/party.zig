@@ -5,13 +5,13 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
-var prompt: prompts.Prompt = undefined;
+const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
-// temporary party prompt
-const situ: Situation = .{ .prompt = "TEST PROMPT", .options = [3][]const u8{ "OPTION A", "OPTION B", "OPTION C" } };
+var prompt: prompts.Prompt = undefined;
 
 pub const PartyState = struct {
     prompt: prompts.Prompt,
+    round_situations: std.ArrayListAligned(u8, null),
     choices: std.ArrayListAligned(u8, null),
     round: u8 = 0,
 
@@ -23,20 +23,27 @@ pub const PartyState = struct {
     }
 
     pub fn init(allocator: std.mem.Allocator) PartyState {
-        return PartyState{
+        var ps = PartyState{
             // pass temporary situation
-            .prompt = prompts.buttonPrompt(situ),
+            .prompt = prompts.buttonPrompt(allocator),
             // allocate the memory for the choices made so far
+            .round_situations = std.ArrayList(u8).initCapacity(allocator, 3) catch {
+                // it wont fail (~;
+                return undefined;
+            },
             .choices = std.ArrayList(u8).initCapacity(allocator, 3) catch {
                 // it wont fail (~;
                 return undefined;
             },
         };
+
+        ps.prompt.setSituation(all_situations[0]);
+        return ps;
     }
 
     pub fn update(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         self.handleInput(pl);
-        self.prompt.draw();
+        self.prompt.update();
     }
 
     fn handleInput(self: *@This(), pl: *const gamepad.GamePad) void {
