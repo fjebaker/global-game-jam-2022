@@ -15,7 +15,7 @@ pub const Prompt = struct {
     selection: u8 = 0,
     buttons: [3]buttons.Button = [_]buttons.Button{ buttons.Button{}, buttons.Button{}, buttons.Button{} },
     order: [3]u8 = [_]u8{ 0, 1, 2 },
-    situation: Situation = .{},
+    situation: *const Situation = undefined,
 
     pub fn update(self: *const @This()) void {
         // draw colour for the outline of the prompt
@@ -44,9 +44,9 @@ pub const Prompt = struct {
         return self.order[self.selection];
     }
 
-    pub fn setSituation(self: *@This(), situation: Situation) void {
+    pub fn setSituation(self: *@This(), situation: *const Situation) void {
         for (situation.options) |s, i| {
-            self.buttons[i].text = s;
+            self.buttons[i] = buttons.Button{ .text = s };
         }
         self.situation = situation;
     }

@@ -38,7 +38,7 @@ pub const PartyState = struct {
     }
 
     pub fn setSituationByIndex(self: *@This(), i: u8) void {
-        self.prompt.setSituation(all_situations[i]);
+        self.prompt.setSituation(&all_situations[i]);
         self.prompt.shuffleOrder(self.rnd);
         self.situation_history[self.round] = i;
     }
@@ -54,17 +54,19 @@ pub const PartyState = struct {
     }
 
     fn newRandomSituationIndex(self: *@This()) u8 {
-        var next_i: u8 = self.situation_history[0];
-        for (self.situation_history) |h, index| {
-            if (index > self.round) {
-                break;
-            }
-            if (h == next_i) {
-                next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len - 1);
-            } else {
-                break;
-            }
-        }
+        //var next_i: u8 = self.situation_history[0];
+        //for (self.situation_history) |h, index| {
+        //    if (index > self.round) {
+        //        break;
+        //    }
+        //    if (h == next_i) {
+        //
+        //    } else {
+        //        break;
+        //    }
+        //}
+
+        const next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len - 1);
         w4.tracef("%d", next_i);
         return next_i;
     }
