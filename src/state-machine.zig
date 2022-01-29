@@ -8,12 +8,13 @@ pub const Screens = enum {
     AT_HOUSE_OF_COMMONS,
     SUE_GRAY,
     PAUSED_SCREEN,
+    START_SCREEN,
     // XXX: debug stuff
     ART_SANDBOX,
 };
 
 pub const StateMachine = struct {
-    screen: Screens = .IN_MENU,
+    screen: Screens = .START_SCREEN,
 
     // player state
     buzzing: u32 = 0,
@@ -27,7 +28,7 @@ pub const StateMachine = struct {
         self.confidence = 0;
         self.totalscore = 0;
 
-        self.screen = .IN_MENU;
+        self.screen = .START_SCREEN;
     }
 
     pub fn init() StateMachine {
