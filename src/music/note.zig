@@ -2,7 +2,7 @@ const c4 = 261.63;
 const twelfthRootOfTwo = 1.05946309436;
 
 // Models a single note sustained for a fixed amount of time
-pub const Note = struct { sfreq: u16, efreq: u16, length: u8 };
+pub const Note = struct { sfreq: u16, efreq: u16, length: u8, on: bool = true };
 
 fn getEqualTemperamentFreq(toneOffset: i16, semitoneMod: i16, octave: u8) u16 {
     var freq: f16 = c4;
