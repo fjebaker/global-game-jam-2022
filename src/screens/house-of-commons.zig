@@ -17,6 +17,7 @@ pub const Parliament = struct {
     ticker: u32 = 0,
     sample_rate: u8 = 1, // how often do we move?
     velocity: u8 = 1,
+    inverted: bool = false,
 
     pub fn init(rnd: *std.rand.Random) Parliament {
         return Parliament{ .rnd = rnd };
@@ -48,30 +49,59 @@ pub const Parliament = struct {
         self.ticker += 1;
     }
 
-    fn handleInput(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+    fn buttonDown(self: *const @This(), pl: *const gamepad.GamePad) bool {
+        if (!self.inverted) {
+            return pl.isHeld(w4.BUTTON_DOWN);
+        } else {
+            return pl.isHeld(w4.BUTTON_UP);
+        }
+    }
+    fn buttonUp(self: *const @This(), pl: *const gamepad.GamePad) bool {
+        if (!self.inverted) {
+            return pl.isHeld(w4.BUTTON_UP);
+        } else {
+            return pl.isHeld(w4.BUTTON_DOWN);
+        }
+    }
+    fn buttonRight(self: *const @This(), pl: *const gamepad.GamePad) bool {
+        if (!self.inverted) {
+            return pl.isHeld(w4.BUTTON_RIGHT);
+        } else {
+            return pl.isHeld(w4.BUTTON_LEFT);
+        }
+    }
+    fn buttonLeft(self: *const @This(), pl: *const gamepad.GamePad) bool {
+        if (!self.inverted) {
+            return pl.isHeld(w4.BUTTON_LEFT);
+        } else {
+            return pl.isHeld(w4.BUTTON_RIGHT);
+        }
+    }
+
+    fn handleInput(self: * @This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         var button_pressed = false;
 
         // bounds check
         if (self.py <= SCREEN_SIZE - SIDE_PADDING - (sprites.boris.height)) {
-            if (pl.isHeld(w4.BUTTON_DOWN) and !button_pressed) {
+            if (self.buttonDown(pl) and !button_pressed) {
                 self.py += self.velocity;
                 button_pressed = true;
             }
         }
         if (self.py >= SIDE_PADDING) {
-            if (pl.isHeld(w4.BUTTON_UP) and !button_pressed) {
+            if (self.buttonUp(pl) and !button_pressed) {
                 self.py -= self.velocity;
                 button_pressed = true;
             }
         }
         if (self.px <= SCREEN_SIZE - SIDE_PADDING) {
-            if (pl.isHeld(w4.BUTTON_RIGHT) and !button_pressed) {
+            if (self.buttonRight(pl) and !button_pressed) {
                 self.px += self.velocity;
                 button_pressed = true;
             }
         }
         if (self.px >= SIDE_PADDING + (sprites.boris.width / 2)) {
-            if (pl.isHeld(w4.BUTTON_LEFT) and !button_pressed) {
+            if (self.buttonLeft(pl) and !button_pressed) {
                 self.px -= self.velocity;
                 button_pressed = true;
             }
