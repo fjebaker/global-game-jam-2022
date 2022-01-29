@@ -16,6 +16,7 @@ pub const PartyState = struct {
     prompt: prompts.Prompt,
     situation_history: [3]u8 = [_]u8{ 0, 0, 0 },
     choices: [3]u8 = [_]u8{ 0, 0, 0 },
+    weights: [3]u8 = [_]u8{ 0, 0, 0 },
     round: u8 = 0,
     rnd: *Xoshiro256,
 
@@ -40,17 +41,28 @@ pub const PartyState = struct {
     pub fn setSituationByIndex(self: *@This(), i: u8) void {
         self.prompt.setSituation(&all_situations[i]);
         self.prompt.shuffleOrder(self.rnd);
-        // self.situation_history[self.round] = i;
+        self.newRandomWeights();
+
+        self.situation_history[self.round] = i;
     }
 
-    pub fn update(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
-        self.handleInput(pl);
+    pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+        self.handleInput(state, pl);
         self.prompt.update();
     }
 
     pub fn setRandomSituation(self: *@This()) void {
         const i = self.newRandomSituationIndex();
         self.setSituationByIndex(i);
+    }
+
+    fn newRandomWeights(self: *@This()) void {
+        // generate low weight 5-10
+        self.weights[0] = self.rnd.random().intRangeLessThan(u8, 5, 11);
+        // genereate medium weight 10-30
+        self.weights[1] = self.rnd.random().intRangeLessThan(u8, 10, 31);
+        // generate high weight 30-50
+        self.weights[2] = self.rnd.random().intRangeLessThan(u8, 30, 51);
     }
 
     fn newRandomSituationIndex(self: *@This()) u8 {
@@ -71,7 +83,7 @@ pub const PartyState = struct {
         return next_i;
     }
 
-    fn handleInput(self: *@This(), pl: *const gamepad.GamePad) void {
+    fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         if (pl.isPressed(w4.BUTTON_DOWN)) {
             self.prompt.incSelection();
         }
@@ -80,11 +92,16 @@ pub const PartyState = struct {
         }
         if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
-            // self.choices[self.round] = self.prompt.getSelection();
+            self.choices[self.round] = self.prompt.getSelection();
             // update round
-            //self.round += 1;
-            // new situation
-            self.setRandomSituation();
+            self.round += 1;
+
+            if (self.round >= 3) {
+                state.screen = .IN_MENU;
+            } else {
+                // new situation
+                self.setRandomSituation();
+            }
         }
     }
 };

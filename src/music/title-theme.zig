@@ -21,7 +21,6 @@ const bb2 = note.getFreq("Bb2".*);
 const a2 = note.getFreq("A 2".*);
 const g2 = note.getFreq("G 2".*);
 
-
 var melodyTone = tone.Tone{ .sfreq = c5, .efreq = c5, .channel = 1 };
 var drumTone = tone.Tone{ .sfreq = c5, .efreq = c5, .channel = 3, .release = 60, .volume = 25, .mode = 2 };
 var bassTone = tone.Tone{ .sfreq = c5, .efreq = c5, .channel = 2 };
