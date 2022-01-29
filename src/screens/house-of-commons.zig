@@ -3,10 +3,13 @@ const statemachine = @import("../state-machine.zig");
 const gamepad = @import("../gamepad.zig");
 const w4 = @import("../wasm4.zig");
 
+const statusbar = @import("../components/status-bar.zig");
+
 const sprites = @import("../assets/sprites.zig");
 
 const SIDE_PADDING: u8 = 4;
 const SCREEN_SIZE: u8 = 160;
+const SURVIVE_TIME: u32 = 10;
 
 pub const Parliament = struct {
     px: u8 = SCREEN_SIZE / 2,
@@ -19,18 +22,44 @@ pub const Parliament = struct {
     velocity: u8 = 1,
     inverted: bool = false,
 
+    timebar: statusbar.StatusBar = undefined,
+
     pub fn init(rnd: *std.rand.Random) Parliament {
-        return Parliament{ .rnd = rnd };
+        return Parliament{ .rnd = rnd, .timebar = statusbar.StatusBar{
+            .value = SURVIVE_TIME,
+            .maximum_value = SURVIVE_TIME,
+            .locy = 8,
+        } };
+    }
+
+    fn reset(self: * @This()) void {
+        self.timebar.value = SURVIVE_TIME;
+        self.ticker = 0;
+        self.px = SCREEN_SIZE / 2;
+        self.py = SCREEN_SIZE / 2;
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
+        w4.text("TIME", SCREEN_SIZE - (4 * 8), 0);
 
         if (self.ticker % self.sample_rate == 0) {
             self.handleInput(state, pl);
         }
+        // update time
+        if (self.ticker % 60 == 0 and self.timebar.value > 0) {
+            self.timebar.value -= 1;
+        }
+        self.timebar.draw();
         self.draw();
+
+        if (self.timebar.value == 0) {
+            // reset states
+            self.reset();
+            // go back to the party
+            state.screen = .ROUND_DONE;
+        }
     }
 
     fn draw(self: *@This()) void {

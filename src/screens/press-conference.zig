@@ -87,7 +87,9 @@ pub const PressState = struct {
             self.round += 1;
 
             if (self.round >= 3) {
-                state.screen = .IN_MENU;
+                // reset self
+                self.reset();
+                state.screen = .AT_HOUSE_OF_COMMONS;
             } else {
                 // new situation
                 self.setRandomSituation();
