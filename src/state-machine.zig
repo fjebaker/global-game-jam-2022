@@ -30,7 +30,7 @@ pub const StateMachine = struct {
         self.screen = .IN_MENU;
     }
 
-    pub fn init(_: std.mem.Allocator) StateMachine {
+    pub fn init() StateMachine {
         return StateMachine{};
     }
 };
