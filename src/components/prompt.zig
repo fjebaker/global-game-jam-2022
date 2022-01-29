@@ -2,6 +2,7 @@ const w4 = @import("../wasm4.zig");
 const buttons = @import("button.zig");
 const Situation = @import("../components/situation.zig").Situation;
 const std = @import("std");
+const textWrap = @import("wrapping-text.zig").textWrap;
 
 const PROMPT_HEIGHT: u8 = 100;
 const SCREEN_SIZE: u8 = 160;
@@ -10,11 +11,14 @@ const X_OFFSET: u8 = 2;
 pub const Prompt = struct {
     selection: u8 = 0,
     buttons: std.ArrayListAligned(buttons.Button, null),
+    situation: Situation = .{},
 
     pub fn update(self: *const @This()) void {
         // draw colour for the outline of the prompt
         w4.DRAW_COLORS.* = 0x42;
         w4.rect(X_OFFSET, PROMPT_HEIGHT, SCREEN_SIZE - 2 * X_OFFSET, PROMPT_HEIGHT);
+
+        textWrap(self.situation.prompt, X_OFFSET, PROMPT_HEIGHT-5);
 
         // set draw colour for the buttons
         w4.DRAW_COLORS.* = 0x24;
@@ -32,6 +36,7 @@ pub const Prompt = struct {
         for (situation.options) |s, i| {
             self.buttons.items[i] = buttons.Button{ .text = s };
         }
+        self.situation = situation;
     }
 
     pub fn incSelection(self: *@This()) void {
