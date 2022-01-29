@@ -1,0 +1,38 @@
+name: Smoke Tests
+
+on: pull_request
+
+env:
+  INSTALL_EDM_VERSION: 3.3.1
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup EDM (Python)
+        uses: enthought/setup-edm-action@v1
+        with:
+          edm-version: ${{ env.INSTALL_EDM_VERSION }}
+        run: edm --config ci/edm.yaml install -y click
+
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v1
+        with:
+          version: master
+
+      - name: Setup WASM4
+        uses: robinraju/release-downloader@v1.3
+        with:
+          repository: aduros/wasm4
+          tag: v2.2.0
+          fileName: w4-linux.zip
+        run: |
+          unzip -d ci/ w4-linux.zip
+          rm -f w4-linux.zip
+
+      - name: Run checks
+        run: |
+          zig build
+          edm run -- python -m ci art-check
