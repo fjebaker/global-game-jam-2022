@@ -10,11 +10,14 @@ pub const Screens = enum {
     ART_SANDBOX,
 };
 
+pub const ChoicePrompt = struct { prompt: []const u8 = "", options: [3][]const u8 = undefined };
+
 const PartyState = struct {
+    prompt: ChoicePrompt = .{},
     choices: [3]u8 = undefined,
     round: u8 = 0,
 
-    pub fn reset(self: * @This()) void {
+    pub fn reset(self: *@This()) void {
         for (self.choices) |*i| {
             i.* = 0;
         }
@@ -25,13 +28,13 @@ const PartyState = struct {
 const PressState = struct {
     round: u8 = 0,
 
-    pub fn reset(self: * @This()) void {
+    pub fn reset(self: *@This()) void {
         self.round = 0;
     }
 };
 
 pub const StateMachine = struct {
-    screen: Screens = .AT_PARTY,
+    screen: Screens = .IN_MENU,
 
     // player state
     buzzing: u32 = 0,
@@ -44,7 +47,7 @@ pub const StateMachine = struct {
 
     press: PressState = .{},
 
-    pub fn reset(self: * @This()) void {
+    pub fn reset(self: *@This()) void {
         self.buzzing = 0;
         self.confidence = 0;
         self.totalscore = 0;
@@ -54,5 +57,4 @@ pub const StateMachine = struct {
 
         self.screen = .IN_MENU;
     }
-
 };

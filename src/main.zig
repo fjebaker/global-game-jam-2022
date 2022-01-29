@@ -9,7 +9,7 @@ const artsandbox = @import("screens/art-sandbox.zig");
 var player = gamepad.GamePad{};
 var state = statemachine.StateMachine{
     // set initial state
-    .screen = .AT_PARTY
+    .screen = .IN_MENU,
 };
 
 export fn start() void {
@@ -22,12 +22,15 @@ export fn start() void {
     };
 }
 
+// temporary party prompt
+const pp: statemachine.ChoicePrompt = .{ .prompt = "TEST PROMPT", .options = [3][]const u8{ "OPTION A", "OPTION B", "OPTION C" } };
+
 export fn update() void {
     switch (state.screen) {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => party.update(&state, &player),
         .ART_SANDBOX => artsandbox.update(),
-        else => {}
+        else => {},
     }
     player.update();
 }

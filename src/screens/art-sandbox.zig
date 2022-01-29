@@ -13,48 +13,35 @@ pub fn update() void {
     }
 
     w4.DRAW_COLORS.* = 0x4320;
-    w4.blitSub(
-        &boris.data,
-        72, 72, // x, y
+    w4.blitSub(&boris.data, 72, 72, // x, y
         boris.height, boris.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         boris.width, // Assumes stride and width are equal
-        boris.flags
-    );
+        boris.flags);
 
     w4.DRAW_COLORS.* = 0x2430;
-    w4.blitSub(
-        &flag.data,
-        90, 72, // x, y
+    w4.blitSub(&flag.data, 90, 72, // x, y
         flag.height, flag.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         flag.width, // Assumes stride and width are equal
-        flag.flags
-    );
+        flag.flags);
 
-    for ([_]i32{1, 2, 3, 4}) |i| {
-        w4.blitSub(
-            &press.data,
-            30 + i * 20, 40, // x, y
+    for ([_]i32{ 1, 2, 3, 4 }) |i| {
+        w4.blitSub(&press.data, 30 + i * 20, 40, // x, y
             press.height, press.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y
             press.width, // Assumes stride and width are equal
-            press.flags
-        );
+            press.flags);
     }
 
     // XXX: ``guest`` colors are weird
     w4.DRAW_COLORS.* = 0x0430;
-    for ([_]i32{1, 2, 3, 4}) |i| {
-        w4.blitSub(
-            &guest.data,
-            30 + i * 20, 100, // x, y
+    for ([_]i32{ 1, 2, 3, 4 }) |i| {
+        w4.blitSub(&guest.data, 30 + i * 20, 100, // x, y
             guest.height, guest.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y
             guest.width, // Assumes stride and width are equal
-            guest.flags
-        );
-
+            guest.flags);
     }
 
     art_ticks += 1;
