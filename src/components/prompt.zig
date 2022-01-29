@@ -3,8 +3,6 @@ const buttons = @import("button.zig");
 const Situation = @import("../components/situation.zig").Situation;
 const std = @import("std");
 
-const Xoshiro256 = std.rand.Xoshiro256;
-
 const textWrap = @import("wrapping-text.zig").textWrap;
 
 const PROMPT_HEIGHT: u8 = 100;
