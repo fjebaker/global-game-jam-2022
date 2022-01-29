@@ -42,6 +42,9 @@ pub const PressState = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad, disallowed: []const u8) void {
+        w4.DRAW_COLORS.* = 0x24;
+        w4.text("PRESS CONFERENCE", 0, 0);
+        // set disallowed
         self.prompt.disallow = disallowed[self.round];
         self.handleInput(state, pl);
         self.prompt.update();

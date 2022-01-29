@@ -48,6 +48,8 @@ pub const PartyState = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+        w4.DRAW_COLORS.* = 0x24;
+        w4.text("PARTY", 0, 0);
         self.handleInput(state, pl);
         self.prompt.update();
     }
