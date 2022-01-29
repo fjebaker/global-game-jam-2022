@@ -11,15 +11,3 @@ pub const all_party_situations = [_]Situation{
     Situation{ .prompt = "Someone passes out", .options = [3][]const u8{ "LAUGH", "TAKE PHOTO", "DRAW ON FACE" } },
     Situation{ .prompt = "Someone's wearing a mask", .options = [3][]const u8{ "POINT & LAUGH", "COUGH ON THEM", "YANK IT OFF" } },
 };
-
-//pub const all_party_situations = [_]Situation{
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQR", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRS", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRST", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTU", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTUV", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTUVW", .options = [3][]const u8{ "ABC", "BC", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTUVWX", .options = [3][]const u8{ "A", "B", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTUVWXY", .options = [3][]const u8{ "A", "B", "C" } },
-//    Situation{ .prompt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", .options = [3][]const u8{ "A", "B", "C" } },
-//};

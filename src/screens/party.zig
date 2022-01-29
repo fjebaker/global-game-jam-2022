@@ -57,7 +57,7 @@ pub const PartyState = struct {
 
     fn newRandomWeights(self: *@This()) void {
         // generate low weight 5-10
-        self.weights[0] = 
+        self.weights[0] =
             self.rnd.intRangeLessThan(u8, 5, 11);
         // genereate medium weight 10-30
         self.weights[1] =
@@ -67,19 +67,7 @@ pub const PartyState = struct {
     }
 
     fn newRandomSituationIndex(self: *@This()) u8 {
-        //var next_i: u8 = self.situation_history[0];
-        //for (self.situation_history) |h, index| {
-        //    if (index > self.round) {
-        //        break;
-        //    }
-        //    if (h == next_i) {
-        //
-        //    } else {
-        //        break;
-        //    }
-        //}
-        const next_i = self.rnd.intRangeLessThan(u8, 0, all_situations.len);
-        return next_i;
+        return self.rnd.intRangeLessThan(u8, 0, all_situations.len);
     }
 
     fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
@@ -94,17 +82,10 @@ pub const PartyState = struct {
             var choice = self.prompt.getSelection();
             self.choices[self.round] = choice;
 
-            //w4.trace("DEBUG");
-            w4.tracef("%d %d %d", @intCast(u32, self.weights[0]), @intCast(u32, self.weights[1]), @intCast(u32, self.weights[2]));
-            //w4.tracef("%d %d %d", @intCast(u32, self.choices[0]), @intCast(u32, self.choices[1]), @intCast(u32, self.choices[2]));
-
-
             // update total score
-            // state.buzzing += self.weights[choice];
-            
-            //var buf: [8]u8 = undefined;
-            //_ = std.fmt.bufPrint(&buf, "{d}", .{state.buzzing}) catch {};
-            //w4.text(&buf, 0, 0);
+            state.buzzing += self.weights[choice];
+            // log it for now
+            w4.tracef("%d", state.buzzing);
 
             // update round
             self.round += 1;
