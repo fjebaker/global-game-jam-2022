@@ -31,7 +31,6 @@ pub const StateMachine = struct {
     }
 
     pub fn init(_: std.mem.Allocator) StateMachine {
-        return StateMachine{
-        };
+        return StateMachine{};
     }
 };
