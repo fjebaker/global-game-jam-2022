@@ -1,6 +1,6 @@
 const w4 = @import("../wasm4.zig");
 const buttons = @import("button.zig");
-const Option = @import("../components/Option.zig").Option;
+const Option = @import("../components/option.zig").Option;
 const std = @import("std");
 const textWrap = @import("wrapping-text.zig").textWrap;
 
