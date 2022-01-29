@@ -5,8 +5,6 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
-const RndGen = std.rand.DefaultPrng;
-
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
 var prompt: prompts.Prompt = undefined;
@@ -26,11 +24,11 @@ pub const PartyState = struct {
         self.round = 0;
     }
 
-    pub fn init() PartyState {
+    pub fn init(rnd: *std.rand.Random) PartyState {
         var ps = PartyState{
             // pass temporary situation
             .prompt = prompts.buttonPrompt(),
-            .rnd = &RndGen.init(1).random(),
+            .rnd = rnd,
         };
 
         ps.setRandomSituation();

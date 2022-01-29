@@ -5,12 +5,11 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
-const RndGen = std.rand.DefaultPrng;
+const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
 pub const PressState = struct {
     prompt: prompts.Prompt,
     situation_history: [3]u8 = [3]u8{ 0, 0, 0 },
-    disallowed: [3]u8 = [3]u8{ 0, 0, 0 },
     weights: [3]u8 = [3]u8{ 0, 0, 0 },
     round: u8 = 0,
     rnd: *std.rand.Random,
@@ -22,11 +21,11 @@ pub const PressState = struct {
         self.round = 0;
     }
 
-    pub fn init() PressState {
+    pub fn init(rnd: *std.rand.Random) PressState {
         var ps = PressState{
             // pass temporary situation
             .prompt = prompts.buttonPrompt(),
-            .rnd = &RndGen.init(2).random(),
+            .rnd = rnd,
         };
 
         ps.setRandomSituation();
