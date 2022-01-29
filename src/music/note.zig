@@ -9,10 +9,9 @@ fn getEqualTemperamentFreq(toneOffset: i16, semitoneMod: i16, octave: u8) u16 {
     // Traverse the relevant number of semitones
 
     var totalSemitoneDiff = toneOffset + semitoneMod;
-    if (totalSemitoneDiff == -1) {
-        // Cb - what kind of person uses this notation?
+    while (totalSemitoneDiff < 0) {
         freq /= twelfthRootOfTwo;
-        totalSemitoneDiff = 0;
+        totalSemitoneDiff += 1;
     }
     while (totalSemitoneDiff > 0) {
         freq *= twelfthRootOfTwo;
