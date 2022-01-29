@@ -40,7 +40,7 @@ pub const PartyState = struct {
     pub fn setSituationByIndex(self: *@This(), i: u8) void {
         self.prompt.setSituation(&all_situations[i]);
         self.prompt.shuffleOrder(self.rnd);
-        self.situation_history[self.round] = i;
+        // self.situation_history[self.round] = i;
     }
 
     pub fn update(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
@@ -66,7 +66,7 @@ pub const PartyState = struct {
         //    }
         //}
 
-        const next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len - 1);
+        const next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len);
         w4.tracef("%d", next_i);
         return next_i;
     }
@@ -80,7 +80,7 @@ pub const PartyState = struct {
         }
         if (pl.isPressed(w4.BUTTON_1)) {
             // save choice
-            self.choices[self.round] = self.prompt.getSelection();
+            // self.choices[self.round] = self.prompt.getSelection();
             // update round
             //self.round += 1;
             // new situation
