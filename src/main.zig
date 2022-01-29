@@ -9,8 +9,6 @@ const startscreen = @import("screens/start-screen.zig");
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
 
-const artsandbox = @import("screens/art-sandbox.zig");
-
 const RndGen = std.rand.DefaultPrng;
 
 // allocation buffer
@@ -44,9 +42,6 @@ export fn start() void {
     state = statemachine.StateMachine.init();
     partystate = party.PartyState.init(&rnd);
     pressconstate = presscon.PressState.init(&rnd);
-
-    // set the first scren
-    state.screen = .AT_PARTY;
 }
 
 export fn update() void {
@@ -54,7 +49,6 @@ export fn update() void {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => partystate.update(&state, &player),
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
-        .ART_SANDBOX => artsandbox.update(),
         .START_SCREEN => startscreen.update(&state, &player),
         else => {},
     }
