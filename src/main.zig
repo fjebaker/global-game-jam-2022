@@ -11,16 +11,13 @@ const std = @import("std");
 
 const RndGen = std.rand.DefaultPrng;
 
-// allocation buffer
-//var buffer: [1028]u8 = undefined;
-//var allocator: std.mem.Allocator = undefined;
-
 var player = gamepad.GamePad{};
 
 // game states
 var state: statemachine.StateMachine = undefined;
 var partystate: party.PartyState = undefined;
 var pressconstate: presscon.PressState = undefined;
+var menustate: mainmenu.Menu = undefined;
 
 var rnd: std.rand.Random = undefined;
 
@@ -36,17 +33,15 @@ export fn start() void {
     rnd = RndGen.init(2).random();
 
     // init the allocation buffer
-    // var fba = std.heap.FixedBufferAllocator.init(&buffer);
-    // allocator = fba.allocator();
-    // allocate all needed game memory
     state = statemachine.StateMachine.init();
     partystate = party.PartyState.init(&rnd);
     pressconstate = presscon.PressState.init(&rnd);
+    menustate = mainmenu.Menu.init();
 }
 
 export fn update() void {
     switch (state.screen) {
-        .IN_MENU => mainmenu.update(),
+        .IN_MENU => menustate.update(&state, &player),
         .AT_PARTY => partystate.update(&state, &player),
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .START_SCREEN => startscreen.update(&state, &player),
