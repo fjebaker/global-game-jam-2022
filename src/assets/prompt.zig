@@ -31,7 +31,7 @@ pub const Prompt = struct {
     }
 
     pub fn incSelection(self: * @This()) void {
-        if (self.selection + 1 >= self.num_buttons) {
+        if (self.selection >= self.num_buttons - 1) {
             // do nothing
         } else {
             self.selection += 1;
@@ -39,7 +39,7 @@ pub const Prompt = struct {
     }
 
     pub fn decSelection(self: * @This()) void {
-        if (self.selection - 1 < 0) {
+        if (self.selection <= 0) {
             // do nothing
         } else {
             self.selection -= 1;

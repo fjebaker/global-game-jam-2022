@@ -7,7 +7,7 @@ const gamepad = @import("./gamepad.zig");
 const artsandbox = @import("screens/art-sandbox.zig");
 
 var player = gamepad.GamePad{};
-var game_state: state.State = .ART_SANDBOX;
+var game_state: state.State = undefined;
 
 export fn start() void {
     w4.PALETTE.* = .{
@@ -17,7 +17,7 @@ export fn start() void {
         0x00222222,
         0x00999999,
     };
-    game_state = .ART_SANDBOX;
+    game_state = .AT_PARTY;
 }
 
 export fn update() void {
@@ -27,4 +27,5 @@ export fn update() void {
         .ART_SANDBOX => artsandbox.update(),
         else => {}
     }
+    player.update();
 }
