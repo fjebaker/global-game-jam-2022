@@ -10,7 +10,7 @@ pub const Tune = struct {
     currIndex: u16 = 0,
 
     pub fn play(self: *Tune) void {
-        if(self.frame == self.currLength) {
+        if (self.frame == self.currLength) {
             self.currIndex += 1;
             self.currIndex = self.currIndex % self.numNotes;
             const newNote = self.notes[self.currIndex];

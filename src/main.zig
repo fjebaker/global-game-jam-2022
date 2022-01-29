@@ -34,7 +34,6 @@ export fn start() void {
     state = statemachine.StateMachine.init(allocator);
     partystate = party.PartyState.init(allocator);
 
-
     // set the first scren
     state.screen = .AT_PARTY;
 }
