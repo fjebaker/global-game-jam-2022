@@ -5,15 +5,19 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
+const RndGen = std.rand.DefaultPrng;
+const Xoshiro256 = std.rand.Xoshiro256;
+
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
 var prompt: prompts.Prompt = undefined;
 
 pub const PartyState = struct {
     prompt: prompts.Prompt,
-    round_situations: std.ArrayListAligned(u8, null),
-    choices: std.ArrayListAligned(u8, null),
+    situation_history: [3]u8 = [_]u8{ 0, 0, 0 },
+    choices: [3]u8 = [_]u8{ 0, 0, 0 },
     round: u8 = 0,
+    rnd: *Xoshiro256,
 
     pub fn reset(self: *@This()) void {
         for (self.choices) |*i| {
@@ -22,28 +26,49 @@ pub const PartyState = struct {
         self.round = 0;
     }
 
-    pub fn init(allocator: std.mem.Allocator) PartyState {
+    pub fn init() PartyState {
         var ps = PartyState{
             // pass temporary situation
-            .prompt = prompts.buttonPrompt(allocator),
-            // allocate the memory for the choices made so far
-            .round_situations = std.ArrayList(u8).initCapacity(allocator, 3) catch {
-                // it wont fail (~;
-                return undefined;
-            },
-            .choices = std.ArrayList(u8).initCapacity(allocator, 3) catch {
-                // it wont fail (~;
-                return undefined;
-            },
+            .prompt = prompts.buttonPrompt(),
+            .rnd = &RndGen.init(1),
         };
 
-        ps.prompt.setSituation(all_situations[0]);
+        ps.setRandomSituation();
         return ps;
+    }
+
+    pub fn setSituationByIndex(self: *@This(), i: u8) void {
+        self.prompt.setSituation(&all_situations[i]);
+        self.prompt.shuffleOrder(self.rnd);
+        // self.situation_history[self.round] = i;
     }
 
     pub fn update(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         self.handleInput(pl);
         self.prompt.update();
+    }
+
+    pub fn setRandomSituation(self: *@This()) void {
+        const i = self.newRandomSituationIndex();
+        self.setSituationByIndex(i);
+    }
+
+    fn newRandomSituationIndex(self: *@This()) u8 {
+        //var next_i: u8 = self.situation_history[0];
+        //for (self.situation_history) |h, index| {
+        //    if (index > self.round) {
+        //        break;
+        //    }
+        //    if (h == next_i) {
+        //
+        //    } else {
+        //        break;
+        //    }
+        //}
+
+        const next_i = self.rnd.random().intRangeLessThan(u8, 0, all_situations.len);
+        w4.tracef("%d", next_i);
+        return next_i;
     }
 
     fn handleInput(self: *@This(), pl: *const gamepad.GamePad) void {
@@ -52,6 +77,14 @@ pub const PartyState = struct {
         }
         if (pl.isPressed(w4.BUTTON_UP)) {
             self.prompt.decSelection();
+        }
+        if (pl.isPressed(w4.BUTTON_1)) {
+            // save choice
+            // self.choices[self.round] = self.prompt.getSelection();
+            // update round
+            //self.round += 1;
+            // new situation
+            self.setRandomSituation();
         }
     }
 };
