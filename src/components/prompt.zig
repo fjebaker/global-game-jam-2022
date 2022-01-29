@@ -18,7 +18,7 @@ pub const Prompt = struct {
         w4.DRAW_COLORS.* = 0x42;
         w4.rect(X_OFFSET, PROMPT_HEIGHT, SCREEN_SIZE - 2 * X_OFFSET, PROMPT_HEIGHT);
 
-        textWrap(self.situation.prompt, X_OFFSET, PROMPT_HEIGHT-5);
+        textWrap(self.situation.prompt, X_OFFSET, PROMPT_HEIGHT - 5);
 
         // set draw colour for the buttons
         w4.DRAW_COLORS.* = 0x24;
