@@ -80,7 +80,7 @@ pub const Prompt = struct {
             // do nothing
         } else {
             if (self.selection - 1 == self.disallow) {
-                if (self.selection - 2 >= 0) {
+                if (self.selection - 2 >= 0 and self.selection - 2 != 255) {
                     self.selection -= 2;
                 } // else do nothing
             } else {

@@ -42,6 +42,7 @@ pub const PartyState = struct {
         self.prompt.shuffleOrder(self.rnd);
         self.newRandomWeights();
 
+        self.prompt.selection = 0;
         //self.situation_history[self.round] = i;
     }
 
