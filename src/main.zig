@@ -41,7 +41,7 @@ export fn update() void {
         .IN_MENU => mainmenu.update(),
         .AT_PARTY => partystate.update(&state, &player),
         .ART_SANDBOX => artsandbox.update(),
-        .START_SCREEN => startscreen.update(),
+        .START_SCREEN => startscreen.update(&state, &player),
         else => {},
     }
     titletheme.mainMenuMusic();
