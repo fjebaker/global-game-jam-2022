@@ -1,15 +1,17 @@
 const w4 = @import("wasm4.zig");
 
 pub const GamePad = struct {
-    last_pressed: u8 = 0,
 
-    pub fn isPressed(self: * @This(), key: u8) bool {
-        const gamepad = w4.GAMEPAD1.*;
-        // check if already pressed
-        const pressed_this_frame = gamepad & (gamepad ^ self.last_pressed);
-        // update state
-        self.last_pressed = gamepad;
+    last_gamepad: u8 = 0,
 
-        return pressed_this_frame & key != 0;
+    pub fn isPressed(self: * const @This(), key: u8) bool {
+        const gamepad: u8 = w4.GAMEPAD1.*;
+        const just_pressed = self.last_gamepad == key;
+        return !just_pressed and gamepad & key != 0;
+    }
+
+    pub fn update(self: *@This()) void {
+        const gamepad: u8 = w4.GAMEPAD1.*;
+        self.last_gamepad = gamepad;
     }
 };
