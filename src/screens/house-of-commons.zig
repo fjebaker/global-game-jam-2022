@@ -95,7 +95,7 @@ pub const Parliament = struct {
             xOff = 16;
         }
 
-        w4.DRAW_COLORS.* = 0x2430;
+        w4.DRAW_COLORS.* = 0x0432;
         w4.blitSub(sprites.boris.data, @intCast(i32, self.px) - @divTrunc(sprites.boris.width, 2), @intCast(i32, self.py), // x, y
             sprites.boris.height, sprites.boris.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y

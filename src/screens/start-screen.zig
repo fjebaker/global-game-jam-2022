@@ -17,9 +17,13 @@ pub fn update(state: *statemachine.StateMachine, pl: *const gamepad.GamePad) voi
         xOff = 16;
     }
 
-    w4.DRAW_COLORS.* = 0x4320;
+    w4.DRAW_COLORS.* = 0x0432;
     w4.blit(sprites.title.data, 7, 0, // x, y
         sprites.title.width, sprites.title.height, sprites.title.flags);
+
+    for ([_]i32{ 0, 1, 2, 3, 4 }) |i| {
+        w4.blit(sprites.pavement.data, i * (32), 100, sprites.pavement.height, sprites.pavement.height, sprites.pavement.flags);
+    }
 
     w4.blitSub(sprites.flag.data, 79, 72 - (32 / 2), // x, y
         sprites.flag.height, sprites.flag.height, // w, h; Assumes square
@@ -34,19 +38,14 @@ pub fn update(state: *statemachine.StateMachine, pl: *const gamepad.GamePad) voi
     w4.blit(sprites.noten.data, 72 - (sprites.noten.width / 4), 72, // x, y
         sprites.noten.width, sprites.noten.height, sprites.noten.flags);
 
-    w4.DRAW_COLORS.* = 0x2340;
-    for ([_]i32{ 0, 1, 2, 3, 4 }) |i| {
-        w4.blit(sprites.pavement.data, i * (32), 100, sprites.pavement.height, sprites.pavement.height, sprites.pavement.flags);
-    }
-
-    w4.DRAW_COLORS.* = 0x2430;
     w4.blitSub(sprites.boris.data, 45, 78 + (32 / 2), // x, y
         sprites.boris.height, sprites.boris.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         sprites.boris.width, // Assumes stride and width are equal
         sprites.boris.flags);
 
-    w4.DRAW_COLORS.* = 0x0020;
+    // The text is 1bpp, so it gets its own palette
+    w4.DRAW_COLORS.* = 0x0002;
     w4.blit(sprites.pab.data, 53, 140, // x, y
         sprites.pab.width, sprites.pab.height, sprites.pab.flags);
 
