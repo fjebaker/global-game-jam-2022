@@ -10,7 +10,8 @@ pub const GamePad = struct {
         return !just_pressed and gamepad & key != 0;
     }
 
-    pub fn isHeld(self: * const @This(), key: u8) bool {
+    pub fn isHeld(_: * const @This(), key: u8) bool {
+        const gamepad: u8 = w4.GAMEPAD1.*;
         return gamepad & key != 0;
     }
 

@@ -1,5 +1,5 @@
 // add global variables representing what state the game is in
-pub const State = enum {
+pub const Screens = enum {
     IN_MENU,
     AT_PARTY,
     AT_PRESS_CONFERENCE,
@@ -10,3 +10,49 @@ pub const State = enum {
     ART_SANDBOX,
 };
 
+const PartyState = struct {
+    choices: [3]u8 = undefined,
+    round: u8 = 0,
+
+    pub fn reset(self: * @This()) void {
+        for (self.choices) |*i| {
+            i.* = 0;
+        }
+        self.round = 0;
+    }
+};
+
+const PressState = struct {
+    round: u8 = 0,
+
+    pub fn reset(self: * @This()) void {
+        self.round = 0;
+    }
+};
+
+pub const StateMachine = struct {
+    screen: Screens = .AT_PARTY,
+
+    // player state
+    buzzing: u32 = 0,
+    confidence: u32 = 0,
+    totalscore: u32 = 0,
+
+    // screen states
+
+    party: PartyState = .{},
+
+    press: PressState = .{},
+
+    pub fn reset(self: * @This()) void {
+        self.buzzing = 0;
+        self.confidence = 0;
+        self.totalscore = 0;
+
+        self.party.reset();
+        self.press.reset();
+
+        self.screen = .IN_MENU;
+    }
+
+};

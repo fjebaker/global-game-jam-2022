@@ -9,6 +9,8 @@ pub const Button = struct {
         w4.text(self.text, x + OFFSET, y);
         if (selected) {
             w4.text(">", x, y);
+        } else {
+            w4.text("-", x, y);
         }
     }
 };
