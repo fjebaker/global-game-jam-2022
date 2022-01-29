@@ -12,14 +12,15 @@ pub fn update() void {
         xOff = 16;
     }
 
-    w4.DRAW_COLORS.* = 0x4320;
+    // WTF is boris in a different order???
+    w4.DRAW_COLORS.* = 0x2430;
     w4.blitSub(&boris.data, 72, 72, // x, y
         boris.height, boris.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
         boris.width, // Assumes stride and width are equal
         boris.flags);
 
-    w4.DRAW_COLORS.* = 0x2430;
+    w4.DRAW_COLORS.* = 0x4320;
     w4.blitSub(&flag.data, 90, 72, // x, y
         flag.height, flag.height, // w, h; Assumes square
         xOff, 0, // src_x, src_y
@@ -34,8 +35,6 @@ pub fn update() void {
             press.flags);
     }
 
-    // XXX: ``guest`` colors are weird
-    w4.DRAW_COLORS.* = 0x0430;
     for ([_]i32{ 1, 2, 3, 4 }) |i| {
         w4.blitSub(&guest.data, 30 + i * 20, 100, // x, y
             guest.height, guest.height, // w, h; Assumes square

@@ -2,8 +2,8 @@ import os
 
 import click
 
-from .imgconvert import convert
-from .imginfo import show_info, show_directory_info
+from .imgconvert import convert, normalize
+from .imgpalette import show_info, show_directory_info
 
 CI_DIR = os.path.abspath(os.path.dirname(__file__))
 SRC_DIR = os.path.abspath(os.path.join(CI_DIR, "..", "src"))
@@ -33,8 +33,13 @@ def art_check():
 def image_info(path, all):
     if all:
         show_directory_info(ASSETS_DIR)
-    else:
+    elif path:
         show_info(path)
+
+
+@cli.command("img-norm")
+def image_normalize():
+    normalize(ASSETS_DIR)
 
 
 if __name__ == "__main__":
