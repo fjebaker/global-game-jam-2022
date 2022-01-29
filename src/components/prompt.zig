@@ -30,6 +30,7 @@ pub const Prompt = struct {
             // button location fixed for now
             X_OFFSET * 4, PROMPT_HEIGHT + i * 17 + X_OFFSET * 4, i == self.selection);
         }
+        self.situation = situation;
     }
 
     pub fn setSituation(self: *@This(), situation: Situation) void {
