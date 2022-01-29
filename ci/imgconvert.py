@@ -1,15 +1,20 @@
 import glob
 import os
 import subprocess
+import sys
+
+from PIL import Image
+
+from .imgpalette import common_palette, remap_palettes
 
 CI_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE = os.path.join(CI_DIR, "png2src.template")
 
 
-def convert(assets_dir, w4exe="w4"):
+def convert(directory, w4exe="w4"):
     """ Convert all the PNG files in a directory to Zig source code.
     """
-    pngpaths = glob.glob(os.path.join(assets_dir, "*.png"))
+    pngpaths = glob.glob(os.path.join(directory, "*.png"))
     for path in pngpaths:
         name = os.path.basename(path)
         print(f"Converting {name}")
@@ -19,5 +24,32 @@ def convert(assets_dir, w4exe="w4"):
         subprocess.check_call(cmd)
 
     print(f"Running `zig fmt`")
-    cmd = ["zig", "fmt", assets_dir]
+    cmd = ["zig", "fmt", directory]
     subprocess.check_call(cmd)
+
+
+def normalize(directory):
+    """ "Normalize" all the PNG files in a directory to have matching palettes.
+    """
+    pngpaths = glob.glob(os.path.join(directory, "*.png"))
+    imgs = [Image.open(path) for path in pngpaths]
+
+    palette = common_palette(imgs)
+    if len(palette) > 4:
+        print("ERROR: The total number of colors for PNGs in {} is more than 4"
+              .format(directory))
+        sys.exit(1)
+
+    TRANSPARENCY = (255, 0, 255, 255)
+    if TRANSPARENCY not in palette:
+        print("ERROR: One of the palette entries must be transparent")
+        sys.exit(1)
+
+    # Keep transparency last
+    palette.discard(TRANSPARENCY)
+    reordered = sorted(palette) + [TRANSPARENCY]
+
+    # Remap all the images
+    remapped = remap_palettes(imgs, reordered)
+    for img in remapped:
+        img.save(img.filename)
