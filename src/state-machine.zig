@@ -9,6 +9,7 @@ pub const Screens = enum {
     SUE_GRAY,
     PAUSED_SCREEN,
     START_SCREEN,
+    ROUND_DONE
 };
 
 pub const StateMachine = struct {
