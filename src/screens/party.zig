@@ -1,9 +1,9 @@
-const prompts = @import("../assets/prompt.zig");
+const prompts = @import("../components/prompt.zig");
 const gamepad = @import("../gamepad.zig");
 const w4 = @import("../wasm4.zig");
 const statemachine = @import("../state-machine.zig");
 const std = @import("std");
-const Situation = @import("../assets/situation.zig").Situation;
+const Situation = @import("../components/situation.zig").Situation;
 
 var prompt: prompts.Prompt = undefined;
 
