@@ -22,12 +22,14 @@ jobs:
         with:
           version: master
 
-      - name: Setup WASM4
+      - name: Download WASM4
         uses: robinraju/release-downloader@v1.3
         with:
           repository: aduros/wasm4
           tag: v2.2.0
           fileName: w4-linux.zip
+
+      - name: Unzip WASM4
         run: |
           unzip -d ci/ w4-linux.zip
           rm -f w4-linux.zip
