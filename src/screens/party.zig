@@ -5,6 +5,9 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 
+const RndGen = std.rand.DefaultPrng;
+const Xoshiro256 = std.rand.Xoshiro256;
+
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 
 var prompt: prompts.Prompt = undefined;
@@ -14,6 +17,7 @@ pub const PartyState = struct {
     round_situations: std.ArrayListAligned(u8, null),
     choices: std.ArrayListAligned(u8, null),
     round: u8 = 0,
+    rnd: *Xoshiro256,
 
     pub fn reset(self: *@This()) void {
         for (self.choices) |*i| {
@@ -35,9 +39,11 @@ pub const PartyState = struct {
                 // it wont fail (~;
                 return undefined;
             },
+            .rnd = &RndGen.init(1)
         };
 
         ps.prompt.setSituation(all_situations[0]);
+        ps.prompt.shuffleOrder(ps.rnd);
         return ps;
     }
 

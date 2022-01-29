@@ -2,6 +2,9 @@ const w4 = @import("../wasm4.zig");
 const buttons = @import("button.zig");
 const Situation = @import("../components/situation.zig").Situation;
 const std = @import("std");
+
+const Xoshiro256 = std.rand.Xoshiro256;
+
 const textWrap = @import("wrapping-text.zig").textWrap;
 
 const PROMPT_HEIGHT: u8 = 100;
@@ -11,6 +14,7 @@ const X_OFFSET: u8 = 2;
 pub const Prompt = struct {
     selection: u8 = 0,
     buttons: std.ArrayListAligned(buttons.Button, null),
+    order: [3] u8 = [_]u8{0,1,2},
     situation: Situation = .{},
 
     pub fn update(self: *const @This()) void {
@@ -24,12 +28,16 @@ pub const Prompt = struct {
         w4.DRAW_COLORS.* = 0x24;
 
         var i: u8 = 0;
-        for (self.buttons.items) |btn, index| {
+        for (self.order) |btn_index, index| {
             i = @intCast(u8, index);
-            btn.draw(
+            self.buttons.items[btn_index].draw(
             // button location fixed for now
             X_OFFSET * 4, PROMPT_HEIGHT + i * 17 + X_OFFSET * 4, i == self.selection);
         }
+    }
+
+    pub fn shuffleOrder(self: * @This(), rnd: *Xoshiro256) void {
+        rnd.random().shuffle(u8, &self.order);
     }
 
     pub fn setSituation(self: *@This(), situation: Situation) void {
