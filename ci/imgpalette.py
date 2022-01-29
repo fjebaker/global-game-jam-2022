@@ -69,10 +69,17 @@ def show_info(path):
 def _get_palette(img, counts=False):
     """ Return a sensible palette for an image.
     """
+    def _getcolor_impl(pal, idx, size):
+        color = tuple(pal[idx*size:(idx+1)*size])
+        if size == 3:
+            # Pad image palettes which have already been converted.
+            color = color + (255,)
+        return color
+
     indexed = img.convert(mode="P")
     paldata = indexed.palette.palette
     colorsize = len(paldata) // 256
-    getcolor = (lambda idx: tuple(paldata[idx*colorsize:(idx+1)*colorsize]))
+    getcolor = (lambda idx: _getcolor_impl(paldata, idx, colorsize))
     return {
         idx: (getcolor(idx), count) if counts else getcolor(idx)
         for count, idx in indexed.getcolors()
