@@ -1,6 +1,7 @@
 const w4 = @import("wasm4.zig");
 const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
+const titletheme = @import("music/title-theme.zig");
 const party = @import("screens/party.zig");
 const gamepad = @import("./gamepad.zig");
 const std = @import("std");
@@ -45,5 +46,6 @@ export fn update() void {
         .ART_SANDBOX => artsandbox.update(),
         else => {},
     }
+    titletheme.mainMenuMusic();
     player.update();
 }
