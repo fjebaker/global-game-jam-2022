@@ -65,5 +65,6 @@ pub fn build(b: *std.build.Builder) !void {
     // functions from compiler_rt getting incorrectly marked as exported, which
     // prevents them from being removed even if unused.
     lib.export_symbol_names = &[_][]const u8{ "start", "update" };
+    lib.setOutputDir("build");
     lib.install();
 }
