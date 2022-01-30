@@ -1,4 +1,4 @@
-const Image = struct {
+pub const Image = struct {
     width: i32,
     height: i32,
     flags: u32,
