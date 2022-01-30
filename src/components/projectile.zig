@@ -8,7 +8,7 @@ pub const Projectile = struct {
     x: u32,
     y: u32,
     xOff: u32 = 0,
-    colors: u16 = 0x2430,
+    colors: u16 = 0x0432,
 
     velocity: u32 = 2,
     facing: Facing = .UP,

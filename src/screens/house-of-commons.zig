@@ -222,7 +222,7 @@ pub const Parliament = struct {
 
     fn throw(self: *@This()) void {
         w4.tracef("Direction %d", self.facing);
-        const p = Projectile.init(sprites.flag, self.px, self.py, self.facing);
+        const p = Projectile.init(sprites.vax, self.px, self.py, self.facing);
         self.pushProjectile(p);
 
         const g = gavels.randomGavel(self.rnd);
