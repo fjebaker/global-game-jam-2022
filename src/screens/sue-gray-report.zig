@@ -41,16 +41,15 @@ pub const SueGrayReport = struct {
         var buf: [4]u8 = undefined;
         toString(state.buzzing, &buf);
         w4.text(&buf, 15, 65);
-
+        
         w4.DRAW_COLORS.* = 0x02;
         w4.text("SUE GRAY REPORT", 20, 5);
         w4.DRAW_COLORS.* = 0x03;
         w4.text("On the 5th of Jan,\nBohnson was found\npartying in 10\nDowning Street. He\nwas:", 5, 20);
         w4.text("Now has a Vote of\nConfidence of", 5, 80);
-
         w4.DRAW_COLORS.* = 0x02;
-        w4.text("%Feckless", 40, 65);
-        w4.text("%Confidence", 40, 105);
+        w4.text("%Feckless", 43, 65);
+        w4.text("%Confidence", 43, 105);
     }
 
     fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {

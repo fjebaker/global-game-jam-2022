@@ -175,4 +175,4 @@ var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .ton
 var harmony = tune.Tune{ .notes = &harmonyNotes, .numNotes = harmonyNotes.len, .tone = &harmonyTone, .introEndNote = 10 };
 var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone, .introEndNote = 15 };
 
-pub const parliamentMusic = music.Music { .part1 = &melody, .part2 = &harmony, .part3 = &drums };
+pub const parliamentMusic = music.Music{ .part1 = &melody, .part2 = &harmony, .part3 = &drums };
