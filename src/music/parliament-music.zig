@@ -1,6 +1,7 @@
 const tone = @import("tone.zig");
 const tune = @import("tune.zig");
 const note = @import("note.zig");
+const music = @import("music.zig");
 
 const c5 = note.getFreq("C 5".*);
 const c4 = note.getFreq("C 4".*);
@@ -92,7 +93,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 2
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -101,7 +102,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 3
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -110,7 +111,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 4
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -119,14 +120,14 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 5
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
     note.Note{ .sfreq = a4, .efreq = a4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
 };
 var drumNotes = [_]note.Note{
     note.Note{ .sfreq = g3, .efreq = g3, .length = 60 },
@@ -174,8 +175,4 @@ var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .ton
 var harmony = tune.Tune{ .notes = &harmonyNotes, .numNotes = harmonyNotes.len, .tone = &harmonyTone, .introEndNote = 10 };
 var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone, .introEndNote = 15 };
 
-pub fn parliamentMusic() void {
-    melody.play();
-    drums.play();
-    harmony.play();
-}
+pub const parliamentMusic = music.Music { .part1 = &melody, .part2 = &harmony, .part3 = &drums };

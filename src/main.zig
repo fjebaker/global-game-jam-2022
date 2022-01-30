@@ -43,8 +43,17 @@ export fn start() void {
     pressconstate = presscon.PressState.init(&rnd);
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
+}
 
-    state.change(.AT_PARTY);
+var ticker: u32 = 0;
+
+pub fn bigBenTo(next: statemachine.Screens, duration: u32) void {
+    bigben.update();
+    ticker += 1;
+    if (ticker == duration) {
+        ticker = 0;
+        state.change(next);
+    }
 }
 
 export fn update() void {
@@ -54,7 +63,9 @@ export fn update() void {
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .AT_HOUSE_OF_COMMONS => parliament.update(&state, &player),
         .START_SCREEN => startscreen.update(&state, &player),
-        .BIG_BEN => bigben.update(),
+        .FROM_COMMONS_TRANSITION => bigBenTo(.AT_PARTY, 40),
+        .TO_COMMONS_TRANSITION => bigBenTo(.AT_HOUSE_OF_COMMONS, 40),
+        .TO_PRESS_CONFERENCE => bigBenTo(.AT_PRESS_CONFERENCE, 40),
         .ROUND_DONE => {
             // tally score
             // reset state and go again
@@ -63,9 +74,9 @@ export fn update() void {
         else => {},
     }
     switch (state.screen) {
-        .AT_PARTY => partyvibez.partyVibezMusic(),
-        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic(),
-        else => titletheme.mainMenuMusic(),
+        .AT_PARTY => partyvibez.partyVibezMusic.play(),
+        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic.play(),
+        else => titletheme.mainMenuMusic.play(),
     }
     player.update();
 }
