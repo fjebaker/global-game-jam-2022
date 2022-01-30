@@ -14,16 +14,15 @@ pub fn textWrap(text: []const u8, x: i8, y: i8) void {
         while (words.next()) |word| {
             if ((stride + word.len + 1) < MAX_LENGTH) {
                 stride += word.len + 1;
-            }
-            else {
-                const end = @minimum(start+stride - 1, text.len);
-                w4.text(text[start .. end], x, line_y);
+            } else {
+                const end = @minimum(start + stride - 1, text.len);
+                w4.text(text[start..end], x, line_y);
                 start += stride;
                 line_y += TEXT_HEIGHT;
             }
         }
         if (stride > 0) {
-            w4.text(text[start .. text.len], x, line_y);
+            w4.text(text[start..text.len], x, line_y);
         }
     } else {
         w4.text(text, x, y);

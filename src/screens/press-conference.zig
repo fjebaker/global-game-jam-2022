@@ -34,11 +34,7 @@ pub const PressState = struct {
             .prompt = prompts.buttonPrompt(),
             .rnd = rnd,
         };
-        confidenceBar = statusbar.StatusBar {
-            .locy = 8,
-            .maximum_value = MAX_CONFIDENCE,
-            .value = MAX_CONFIDENCE
-        };
+        confidenceBar = statusbar.StatusBar{ .locy = 8, .maximum_value = MAX_CONFIDENCE, .value = MAX_CONFIDENCE };
 
         ps.setRandomSituation();
         return ps;
@@ -58,7 +54,7 @@ pub const PressState = struct {
         confidenceBar.value = state.confidence;
         // draw the confidence bar
         confidenceBar.draw();
-        
+
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PRESS CONFERENCE", 0, 0);
         w4.text("CONFIDENCE", SCREEN_SIZE - (10 * 8), 18);

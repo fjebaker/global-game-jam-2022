@@ -3,11 +3,10 @@ const gamepad = @import("../gamepad.zig");
 const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 
-
 const SCREEN_SIZE: u8 = 160;
 const TIMEOUT = 60;
 
-fn toString(score : u32, buf: [] u8) void {
+fn toString(score: u32, buf: []u8) void {
     // fixed size buffer of 4
     _ = std.fmt.bufPrint(buf, "{d}", .{score}) catch {};
 }
@@ -32,7 +31,7 @@ pub const SueGrayReport = struct {
         self.draw(state);
     }
 
-    fn draw(_: *const @This(), state : *const statemachine.StateMachine) void {
+    fn draw(_: *const @This(), state: *const statemachine.StateMachine) void {
         w4.DRAW_COLORS.* = 0x02;
         w4.text("SUE GRAY REPORT", 20, 5);
         w4.DRAW_COLORS.* = 0x03;
@@ -40,8 +39,8 @@ pub const SueGrayReport = struct {
         w4.text("Now has a Vote of\nConfidence of", 5, 80);
 
         w4.DRAW_COLORS.* = 0x42;
-        
-        var buf: [3] u8 = [_]u8{0,0,0};
+
+        var buf: [3]u8 = [_]u8{ 0, 0, 0 };
         toString(state.buzzing, &buf);
         w4.text(&buf, 10, 65);
 
