@@ -23,6 +23,7 @@ var partystate: party.PartyState = undefined;
 var pressconstate: presscon.PressState = undefined;
 var menustate: mainmenu.Menu = undefined;
 var parliament: houseofcommons.Parliament = undefined;
+var suegrayreport: suegray.SueGrayReport = undefined;
 
 var rnd: std.rand.Random = undefined;
 
@@ -43,6 +44,7 @@ export fn start() void {
     pressconstate = presscon.PressState.init(&rnd);
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
+    suegrayreport = suegray.SueGrayReport.init();
 }
 
 var ticker: u32 = 0;
@@ -66,6 +68,7 @@ export fn update() void {
         .FROM_COMMONS_TRANSITION => bigBenTo(.AT_PARTY, 40),
         .TO_COMMONS_TRANSITION => bigBenTo(.AT_HOUSE_OF_COMMONS, 40),
         .TO_PRESS_CONFERENCE => bigBenTo(.AT_PRESS_CONFERENCE, 40),
+        .SUE_GRAY => suegrayreport.update(&state, &player),
         .ROUND_DONE => {
             // tally score
             // reset state and go again
