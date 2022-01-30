@@ -30,8 +30,8 @@ pub const Menu = struct {
 
         w4.DRAW_COLORS.* = 0x42;
         w4.text("Crossing Party\nLines", 20, 10);
-        w4.DRAW_COLORS.* = 0x24;
 
+        w4.DRAW_COLORS.* = 0x24;
         var i: u8 = 0;
         for (self.buttons) |btn, index| {
             i = @intCast(u8, index);
@@ -45,14 +45,13 @@ pub const Menu = struct {
             xOff = 16;
         }
 
-        w4.DRAW_COLORS.* = 0x4320;
+        w4.DRAW_COLORS.* = 0x0432;
         w4.blitSub(boris.data, 100, 32, // x, y
             boris.height, boris.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y
             boris.width, // Assumes stride and width are equal
             boris.flags);
 
-        w4.DRAW_COLORS.* = 0x2430;
         w4.blitSub(flag.data, 120, 32, // x, y
             flag.height, flag.height, // w, h; Assumes square
             xOff, 0, // src_x, src_y

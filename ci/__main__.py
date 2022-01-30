@@ -16,21 +16,17 @@ def cli():
     """
 
 
-@cli.command("art-check")
-def art_check():
-    # Locate ``w4`` when running on GitHub
-    kwargs = {}
-    if "GITHUB_ACTIONS" in os.environ:
-        kwargs["w4exe"] = os.path.join(CI_DIR, "w4")
-
-    # Run the conversion
-    convert(ASSETS_DIR, **kwargs)
+@cli.command("img-convert")
+def image_convert():
+    """ Convert PNGs to Zig source. """
+    convert(ASSETS_DIR)
 
 
 @cli.command("img-info")
 @click.argument("path", type=str, required=False)
 @click.option("--all", is_flag=True, default=False)
 def image_info(path, all):
+    """ Dump size and palette information for one or all files. """
     if all:
         show_directory_info(ASSETS_DIR)
     elif path:
@@ -38,8 +34,10 @@ def image_info(path, all):
 
 
 @cli.command("img-norm")
-def image_normalize():
-    normalize(ASSETS_DIR)
+@click.option("--check", is_flag=True, default=False)
+def image_normalize(check):
+    """ Harmonize the palettes of all files. """
+    normalize(ASSETS_DIR, check)
 
 
 @cli.command("img-swap-color")
@@ -47,6 +45,7 @@ def image_normalize():
 @click.option("--from", "from_color", type=str)
 @click.option("--to", "to_color", type=str)
 def image_color_swap(path, from_color, to_color):
+    """ Replace a single color in an image. """
     n = 4 if len(from_color) == 10 else 3
     getcolor = (lambda x: tuple(map(int, int(x, base=16).to_bytes(n, "big"))))
     from_color = getcolor(from_color)

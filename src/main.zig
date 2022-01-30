@@ -41,7 +41,7 @@ export fn start() void {
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
 
-    state.screen = .AT_HOUSE_OF_COMMONS;
+    state.screen = .START_SCREEN;
 }
 
 export fn update() void {

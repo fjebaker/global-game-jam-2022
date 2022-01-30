@@ -5,13 +5,13 @@ pub const Image = struct {
     data: [*]u8,
 };
 
-{{#sprites}}
-// {{name}}
-var {{name}}_bits = [_]u8{ {{bytes}} };
-pub const {{name}} = Image {
-    .width = {{width}},
-    .height = {{height}},
-    .flags = {{flags}}, // {{flagsHumanReadable}}
-    .data = &{{name}}_bits,
-};
-{{/sprites}}
+__TEMPLATE__
+// {name}
+var {name}_bits = [_]u8{{ {bytes} }};
+pub const {name} = Image {{
+    .width = {width},
+    .height = {height},
+    .flags = {flags}, // {flagsHumanReadable}
+    .data = &{name}_bits,
+}};
+__TEMPLATE__
