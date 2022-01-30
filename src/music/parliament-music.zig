@@ -92,7 +92,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 2
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -101,7 +101,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 3
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -110,7 +110,7 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 4
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
@@ -119,14 +119,14 @@ var harmonyNotes = [_]note.Note{
     note.Note{ .sfreq = b4, .efreq = b4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 60 }, // Marker loop 5
     note.Note{ .sfreq = g4, .efreq = g4, .length = 90 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 60 },
     note.Note{ .sfreq = a4, .efreq = a4, .length = 90 },
     note.Note{ .sfreq = f4, .efreq = f4, .length = 60 },
     note.Note{ .sfreq = c5, .efreq = c5, .length = 90 },
-    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false }, 
+    note.Note{ .sfreq = c5, .efreq = c5, .length = 30, .on = false },
 };
 var drumNotes = [_]note.Note{
     note.Note{ .sfreq = g3, .efreq = g3, .length = 60 },

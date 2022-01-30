@@ -53,58 +53,58 @@ pub const PressState = struct {
 
         var xOff: u32 = 0;
         if (start_ticks % 20 > 10) {
-        xOff = 16;
+            xOff = 16;
         }
 
         w4.DRAW_COLORS.* = 0x0432;
         w4.blitSub(sprites.guest.data, 20, 70, // x, y
-        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.guest.width, // Assumes stride and width are equal
-        sprites.guest.flags);
+            sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.guest.width, // Assumes stride and width are equal
+            sprites.guest.flags);
 
         w4.blitSub(sprites.guest.data, 20, 30, // x, y
-        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.guest.width, // Assumes stride and width are equal
-        sprites.guest.flags);
+            sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.guest.width, // Assumes stride and width are equal
+            sprites.guest.flags);
 
         w4.DRAW_COLORS.* = 0x0432;
         w4.blitSub(sprites.boris.data, 50, 50, // x, y
-        sprites.boris.height, sprites.boris.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.boris.width, // Assumes stride and width are equal
-        sprites.boris.flags);
+            sprites.boris.height, sprites.boris.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.boris.width, // Assumes stride and width are equal
+            sprites.boris.flags);
 
         w4.blitSub(sprites.press.data, 80, 30, // x, y
-        sprites.press.height, sprites.press.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.press.width, // Assumes stride and width are equal
-        sprites.press.flags|0x2);
+            sprites.press.height, sprites.press.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.press.width, // Assumes stride and width are equal
+            sprites.press.flags | 0x2);
 
         w4.blitSub(sprites.press.data, 110, 40, // x, y
-        sprites.press.height, sprites.press.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.press.width, // Assumes stride and width are equal
-        sprites.press.flags|0x2);
+            sprites.press.height, sprites.press.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.press.width, // Assumes stride and width are equal
+            sprites.press.flags | 0x2);
 
         w4.blitSub(sprites.press.data, 90, 50, // x, y
-        sprites.press.height, sprites.press.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.press.width, // Assumes stride and width are equal
-        sprites.press.flags|0x2);
+            sprites.press.height, sprites.press.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.press.width, // Assumes stride and width are equal
+            sprites.press.flags | 0x2);
 
         w4.blitSub(sprites.press.data, 110, 60, // x, y
-        sprites.press.height, sprites.press.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.press.width, // Assumes stride and width are equal
-        sprites.press.flags|0x2);
+            sprites.press.height, sprites.press.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.press.width, // Assumes stride and width are equal
+            sprites.press.flags | 0x2);
 
         w4.blitSub(sprites.press.data, 80, 70, // x, y
-        sprites.press.height, sprites.press.height, // w, h; Assumes square
-        xOff, 0, // src_x, src_y
-        sprites.press.width, // Assumes stride and width are equal
-        sprites.press.flags|0x2);
+            sprites.press.height, sprites.press.height, // w, h; Assumes square
+            xOff, 0, // src_x, src_y
+            sprites.press.width, // Assumes stride and width are equal
+            sprites.press.flags | 0x2);
 
         start_ticks += 1;
     }
