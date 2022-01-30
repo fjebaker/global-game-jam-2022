@@ -68,7 +68,7 @@ export fn update() void {
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .AT_HOUSE_OF_COMMONS => parliament.update(&state, &player),
         .START_SCREEN => startscreen.update(&state, &player),
-        .FROM_COMMONS_TRANSITION => bigBenTo(.AT_PARTY, 40),
+        .FROM_COMMONS_TRANSITION => bigBenTo(.SUE_GRAY, 40),
         .TO_COMMONS_TRANSITION => bigBenTo(.AT_HOUSE_OF_COMMONS, 40),
         .TO_PRESS_CONFERENCE => bigBenTo(.AT_PRESS_CONFERENCE, 40),
         .SUE_GRAY => suegrayreport.update(&state, &player),

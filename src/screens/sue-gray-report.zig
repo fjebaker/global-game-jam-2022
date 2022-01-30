@@ -17,12 +17,14 @@ pub const SueGrayReport = struct {
     }
 
     pub fn update(self : *@This(), state: * statemachine.StateMachine, pl: * gamepad.GamePad) void {
-        self.ticker += 1;
+        
         if (self.ticker > TIMEOUT) {
             self.handleInput(state, pl);
 
             w4.DRAW_COLORS.* = 0x04;
             w4.text("Press X to continue", 3, 140);
+        } else {
+            self.ticker += 1;
         }
 
         self.draw(state);
@@ -44,9 +46,10 @@ pub const SueGrayReport = struct {
         w4.text("%Confidence", 40, 105);
     }
 
-    fn handleInput(_: * const @This(), state: * statemachine.StateMachine, pl: * gamepad.GamePad) void {
+    fn handleInput(self: * @This(), state: * statemachine.StateMachine, pl: * gamepad.GamePad) void {
         if (pl.isPressed(w4.BUTTON_1)) {
             state.change(.AT_PARTY);
+            self.ticker = 0;
         }
     }
 };
