@@ -14,7 +14,7 @@ const sprites = @import("../assets/sprites.zig");
 
 const SIDE_PADDING: u8 = 4;
 const SCREEN_SIZE: u8 = 160;
-const SURVIVE_TIME: u32 = 1000;
+const SURVIVE_TIME: u32 = 10;
 const ACTION_COOLDOWN: u32 = 1 * 10;
 const GAVEL_SPAWN_CHANCE: u8 = 245;
 
@@ -72,7 +72,6 @@ pub const Parliament = struct {
         }
         self.timebar.draw();
 
-
         // projectiles
         self.randomGavelSpawn();
         self.updateProjectiles();
@@ -84,7 +83,7 @@ pub const Parliament = struct {
             // reset states
             self.reset();
             // go back to the party
-            state.change(.ROUND_DONE);
+            state.change(.FROM_COMMONS_TRANSITION);
         }
     }
 
@@ -241,8 +240,8 @@ pub const Parliament = struct {
     }
 
     fn randomGavelSpawn(self: *@This()) void {
-        const ri = self.rnd.int(u8); 
-        if ( ri > GAVEL_SPAWN_CHANCE ) {
+        const ri = self.rnd.int(u8);
+        if (ri > GAVEL_SPAWN_CHANCE) {
             var g = gavels.randomGavel(self.rnd);
             g.player_targetable = true;
             self.pushProjectile(g);
@@ -262,33 +261,32 @@ pub const Parliament = struct {
     }
 };
 
-
 fn drawCommons() void {
-        w4.DRAW_COLORS.* = 0x0432;
-        w4.blit(sprites.commons.data, 0, 0, // x, y
-            sprites.commons.width, sprites.commons.height, sprites.commons.flags);
+    w4.DRAW_COLORS.* = 0x0432;
+    w4.blit(sprites.commons.data, 0, 0, // x, y
+        sprites.commons.width, sprites.commons.height, sprites.commons.flags);
 
-        // XXX: Hack the benches in. This will need to change.
-        const b_width = sprites.bench.width;
-        const b_height = sprites.bench.height;
-        const x_flip = 0x2;
-        const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
-        const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
-        w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+    // XXX: Hack the benches in. This will need to change.
+    const b_width = sprites.bench.width;
+    const b_height = sprites.bench.height;
+    const x_flip = 0x2;
+    const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
+    const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
+    w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+    w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+    w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+    w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags);
 
-        w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
-        w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
-        w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
-        w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
-            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+    w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+    w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+    w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+    w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
+        sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
 }

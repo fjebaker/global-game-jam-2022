@@ -1,7 +1,7 @@
 const std = @import("std");
 
 // add global variables representing what state the game is in
-pub const Screens = enum { IN_MENU, AT_PARTY, AT_PRESS_CONFERENCE, AT_HOUSE_OF_COMMONS, SUE_GRAY, PAUSED_SCREEN, START_SCREEN, ROUND_DONE, BIG_BEN };
+pub const Screens = enum { IN_MENU, AT_PARTY, AT_PRESS_CONFERENCE, AT_HOUSE_OF_COMMONS, SUE_GRAY, PAUSED_SCREEN, START_SCREEN, ROUND_DONE, FROM_COMMONS_TRANSITION, TO_COMMONS_TRANSITION, TO_PRESS_CONFERENCE };
 
 pub const StateMachine = struct {
     screen: Screens = undefined,
@@ -26,6 +26,6 @@ pub const StateMachine = struct {
     }
 
     pub fn init() StateMachine {
-        return StateMachine{ .buzzing = 0 };
+        return StateMachine{ .screen = .START_SCREEN, .buzzing = 0 };
     }
 };
