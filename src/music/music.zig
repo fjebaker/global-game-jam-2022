@@ -1,4 +1,8 @@
 const tune = @import("tune.zig");
+const statemachine = @import("../state-machine.zig");
+const parliamentmusic = @import("parliament-music.zig");
+const partyvibez = @import("party-vibez.zig");
+const titletheme = @import("title-theme.zig");
 
 // Convenience struct for 3 part music
 pub const Music = struct {
@@ -18,3 +22,13 @@ pub const Music = struct {
         self.part3.*.reset();
     }
 };
+
+pub fn musicForScreen(screen: statemachine.Screens) *const Music {
+    return switch (screen) {
+        .AT_PARTY => &partyvibez.partyVibezMusic,
+        .AT_HOUSE_OF_COMMONS => &parliamentmusic.parliamentMusic,
+        .TO_COMMONS_TRANSITION => &parliamentmusic.parliamentMusic,
+        .FROM_COMMONS_TRANSITION => &partyvibez.partyVibezMusic,
+        else => &titletheme.mainMenuMusic,
+    };
+}

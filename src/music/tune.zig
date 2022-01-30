@@ -30,8 +30,10 @@ pub const Tune = struct {
     }
 
     pub fn reset(self: *Tune) void {
-        self.frame = 0;
-        self.currLength = 0;
-        self.currIndex = 0;
+        if(self.currIndex > 0) {
+            self.frame = 0;
+            self.currLength = 0;
+            self.currIndex = self.introEndNote;
+        }
     }
 };
