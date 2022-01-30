@@ -21,7 +21,7 @@ pub fn randomGavel(rnd: *std.rand.Random) Projectile {
     return switch (edge) {
         0 => Projectile.init(sprites.gavel, 0, pos, .RIGHT),
         1 => Projectile.init(sprites.gavel, pos, 0, .DOWN),
-        2 => Projectile.init(sprites.gavel, 0, pos, .RIGHT),
-        else => Projectile.init(sprites.gavel, pos, 0, .UP),
+        2 => Projectile.init(sprites.gavel, SCREEN_SIZE, pos, .LEFT),
+        else => Projectile.init(sprites.gavel, pos, SCREEN_SIZE, .UP),
     };
 }
