@@ -6,7 +6,7 @@ const statemachine = @import("../state-machine.zig");
 var start_ticks: u32 = 0;
 pub fn handleInput(state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
     if (pl.isPressed(w4.BUTTON_DOWN) or pl.isPressed(w4.BUTTON_UP) or pl.isPressed(w4.BUTTON_LEFT) or pl.isPressed(w4.BUTTON_RIGHT) or pl.isPressed(w4.BUTTON_1) or pl.isPressed(w4.BUTTON_2)) {
-        state.screen = .AT_PARTY;
+        state.change(.AT_PARTY);
     }
 }
 

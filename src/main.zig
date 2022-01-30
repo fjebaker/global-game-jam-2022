@@ -42,7 +42,7 @@ export fn start() void {
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
 
-    state.screen = .AT_HOUSE_OF_COMMONS;
+    state.change(.AT_HOUSE_OF_COMMONS);
 }
 
 export fn update() void {
@@ -55,7 +55,7 @@ export fn update() void {
         .ROUND_DONE => {
             // tally score
             // reset state and go again
-            state.screen = .AT_PARTY;
+            state.change(.AT_PARTY);
         },
         else => {},
     }
