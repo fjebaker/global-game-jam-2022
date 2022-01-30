@@ -89,6 +89,8 @@ pub const PartyState = struct {
             self.round += 1;
 
             if (self.round >= 3) {
+                // reset self
+                self.reset();
                 state.screen = .AT_PRESS_CONFERENCE;
             } else {
                 // new situation
