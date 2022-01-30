@@ -49,6 +49,7 @@ pub const Parliament = struct {
         self.ticker = 0;
         self.px = SCREEN_SIZE / 2;
         self.py = SCREEN_SIZE / 2;
+        self.proj_index = 0;
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
@@ -64,6 +65,8 @@ pub const Parliament = struct {
             self.timebar.value -= 1;
         }
         self.timebar.draw();
+        // projectiles
+        self.updateProjectiles();
         self.draw();
 
         if (self.timebar.value == 0) {
@@ -71,6 +74,20 @@ pub const Parliament = struct {
             self.reset();
             // go back to the party
             state.screen = .ROUND_DONE;
+        }
+    }
+
+    fn updateProjectiles(self: * @This()) void {
+        // draw all of the projectiles
+        if (self.proj_index != 0) {
+            for (self.projectiles) |*proj, i| {
+                if (i == self.proj_index) { // points to top of stack
+                    break;
+                } else {
+                    proj.update();
+                    proj.draw();
+                }
+            }
         }
     }
 
@@ -87,17 +104,6 @@ pub const Parliament = struct {
             sprites.boris.width, // Assumes stride and width are equal
             sprites.boris.flags);
 
-        // draw all of the projectiles
-        if (self.proj_index != 0) {
-            for (self.projectiles) |proj, i| {
-                if (i == self.proj_index) { // points to top of stack
-                    break;
-                } else {
-                    proj.draw();
-                }
-            }
-        }
-
         self.ticker += 1;
         // reduce cooldown if we can
         if (self.cooldown != 0) {
@@ -107,39 +113,59 @@ pub const Parliament = struct {
 
     fn buttonDown(self: *@This(), pl: *const gamepad.GamePad) bool {
         if (!self.inverted) {
-            self.facing = .DOWN;
-            return pl.isHeld(w4.BUTTON_DOWN);
+            if (pl.isHeld(w4.BUTTON_DOWN)) {
+                self.facing = .DOWN;
+                return true;
+            }
         } else {
-            self.facing = .UP;
-            return pl.isHeld(w4.BUTTON_UP);
+            if (pl.isHeld(w4.BUTTON_UP)) {
+                self.facing = .UP;
+                return true;
+            }
         }
+        return false;
     }
     fn buttonUp(self: *@This(), pl: *const gamepad.GamePad) bool {
         if (!self.inverted) {
-            self.facing = .UP;
-            return pl.isHeld(w4.BUTTON_UP);
+            if (pl.isHeld(w4.BUTTON_UP)) {
+                self.facing = .UP;
+                return true;
+            }
         } else {
-            self.facing = .DOWN;
-            return pl.isHeld(w4.BUTTON_DOWN);
+            if (pl.isHeld(w4.BUTTON_DOWN)) {
+                self.facing = .DOWN;
+                return true;
+            }
         }
+        return false;
     }
     fn buttonRight(self: *@This(), pl: *const gamepad.GamePad) bool {
         if (!self.inverted) {
-            self.facing = .RIGHT;
-            return pl.isHeld(w4.BUTTON_RIGHT);
+            if (pl.isHeld(w4.BUTTON_RIGHT)) {
+                self.facing = .RIGHT;
+                return true;
+            }
         } else {
-            self.facing = .LEFT;
-            return pl.isHeld(w4.BUTTON_LEFT);
+            if (pl.isHeld(w4.BUTTON_LEFT)) {
+                self.facing = .LEFT;
+                return true;
+            }
         }
+        return false;
     }
     fn buttonLeft(self: *@This(), pl: *const gamepad.GamePad) bool {
         if (!self.inverted) {
-            self.facing = .LEFT;
-            return pl.isHeld(w4.BUTTON_LEFT);
+            if (pl.isHeld(w4.BUTTON_LEFT)) {
+                self.facing = .LEFT;
+                return true;
+            }
         } else {
-            self.facing = .RIGHT;
-            return pl.isHeld(w4.BUTTON_RIGHT);
+            if (pl.isHeld(w4.BUTTON_RIGHT)) {
+                self.facing = .RIGHT;
+                return true;
+            }
         }
+        return false;
     }
 
     fn handleInput(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
@@ -180,7 +206,11 @@ pub const Parliament = struct {
 
     fn pushProjectile(self: * @This(), p: Projectile) void {
         self.projectiles[self.proj_index] = p;
+        // if we reach end, circle around
         self.proj_index += 1;
+        if (self.proj_index >= 128) {
+            self.proj_index = 0;
+        }
     }
 
     fn popProjectile(self: *@This()) Projectile {
@@ -193,7 +223,8 @@ pub const Parliament = struct {
     }
 
     fn throw(self: *@This()) void {
-        const p = Projectile.init(sprites.flag, self.px, self.py);
+        w4.tracef("Direction %d", self.facing);
+        const p = Projectile.init(sprites.flag, self.px, self.py, self.facing);
         self.pushProjectile(p);
         
     }
