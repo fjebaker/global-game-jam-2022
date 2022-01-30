@@ -56,6 +56,9 @@ pub const Parliament = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
+        // background
+        drawCommons();
+
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
         w4.text("TIME", SCREEN_SIZE - (4 * 8), 0);
@@ -104,8 +107,6 @@ pub const Parliament = struct {
         if (self.ticker % 20 > 10) {
             xOff = 16;
         }
-
-        drawCommons();
 
         w4.DRAW_COLORS.* = 0x0432;
         w4.blitSub(sprites.boris.data, @intCast(i32, self.px) - @divTrunc(sprites.boris.width, 2), @intCast(i32, self.py), // x, y
