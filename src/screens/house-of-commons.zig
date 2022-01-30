@@ -14,7 +14,7 @@ const sprites = @import("../assets/sprites.zig");
 
 const SIDE_PADDING: u8 = 4;
 const SCREEN_SIZE: u8 = 160;
-const SURVIVE_TIME: u32 = 1000;
+const SURVIVE_TIME: u32 = 10;
 const ACTION_COOLDOWN: u32 = 1 * 10;
 const GAVEL_SPAWN_CHANCE: u8 = 245;
 
@@ -84,7 +84,7 @@ pub const Parliament = struct {
             // reset states
             self.reset();
             // go back to the party
-            state.change(.ROUND_DONE);
+            state.change(.FROM_COMMONS_TRANSITION);
         }
     }
 

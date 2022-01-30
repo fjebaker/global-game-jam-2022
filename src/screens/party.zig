@@ -133,7 +133,7 @@ pub const PartyState = struct {
             if (self.round >= 3) {
                 // reset self
                 self.reset();
-                state.change(.AT_PRESS_CONFERENCE);
+                state.change(.TO_PRESS_CONFERENCE);
             } else {
                 // new situation
                 self.setRandomSituation();

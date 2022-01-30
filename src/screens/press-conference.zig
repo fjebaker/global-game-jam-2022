@@ -148,7 +148,7 @@ pub const PressState = struct {
             if (self.round >= 3) {
                 // reset self
                 self.reset();
-                state.change(.AT_HOUSE_OF_COMMONS);
+                state.change(.TO_COMMONS_TRANSITION);
             } else {
                 // new situation
                 self.setRandomSituation();
