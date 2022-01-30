@@ -44,6 +44,8 @@ pub const SueGrayReport = struct {
         var buf: [3] u8 = [_]u8{0,0,0};
         toString(state.buzzing, &buf);
         w4.text(&buf, 10, 65);
+
+        toString(state.confidence, &buf);
         w4.text(&buf, 10, 105);
 
         w4.DRAW_COLORS.* = 0x02;
