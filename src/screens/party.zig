@@ -4,9 +4,10 @@ const w4 = @import("../wasm4.zig");
 const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
+const sprites = @import("../assets/sprites.zig");
 
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
-
+var start_ticks: u32 = 0;
 var prompt: prompts.Prompt = undefined;
 
 pub const PartyState = struct {
@@ -52,6 +53,47 @@ pub const PartyState = struct {
         w4.text("PARTY", 0, 0);
         self.handleInput(state, pl);
         self.prompt.update();
+
+        var additionalFlags: u32 = 0x1;
+        var xOff: u32 = 0;
+        if (start_ticks % 20 > 10) {
+        xOff = 16;
+        additionalFlags = 0x2;
+        }
+
+
+        w4.DRAW_COLORS.* = 0x0432;
+        w4.blitSub(sprites.boris.data, ((160 / 2) - 8), 50, // x, y
+        sprites.boris.height, sprites.boris.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.boris.width, // Assumes stride and width are equal
+        sprites.boris.flags|additionalFlags);
+
+        w4.blitSub(sprites.guest.data, 100, 50, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags|additionalFlags);
+
+        w4.blitSub(sprites.guest.data, 25, 50, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags|additionalFlags);
+
+        w4.blitSub(sprites.guest.data, 50, 50, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags|additionalFlags);
+
+        w4.blitSub(sprites.guest.data, 125, 50, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags|additionalFlags);
+
+        start_ticks += 1;
     }
 
     pub fn setRandomSituation(self: *@This()) void {
