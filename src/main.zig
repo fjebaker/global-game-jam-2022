@@ -25,14 +25,14 @@ var rnd: std.rand.Random = undefined;
 
 export fn start() void {
     w4.PALETTE.* = .{
-        // XRGB
+        // XRGBx
         0x00DDDDDD,
         0x00000000,
         0x009E9E9E,
         0x00FFFFFF,
     };
 
-    rnd = RndGen.init(0).random();
+    rnd = RndGen.init(69).random();
 
     // init the allocation buffer
     state = statemachine.StateMachine.init();
