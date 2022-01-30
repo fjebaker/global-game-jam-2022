@@ -73,10 +73,6 @@ export fn update() void {
         },
         else => {},
     }
-    switch (state.screen) {
-        .AT_PARTY => partyvibez.partyVibezMusic.play(),
-        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic.play(),
-        else => titletheme.mainMenuMusic.play(),
-    }
+    state.playMusic();
     player.update();
 }
