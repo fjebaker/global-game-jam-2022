@@ -9,6 +9,7 @@ const presscon = @import("screens/press-conference.zig");
 const startscreen = @import("screens/start-screen.zig");
 const houseofcommons = @import("screens/house-of-commons.zig");
 const bigben = @import("screens/big-ben.zig");
+const suegray = @import("screens/sue-gray-report.zig");
 
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
@@ -45,6 +46,8 @@ export fn start() void {
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
     suegrayreport = suegray.SueGrayReport.init();
+
+    state.screen = .SUE_GRAY;
 }
 
 var ticker: u32 = 0;
