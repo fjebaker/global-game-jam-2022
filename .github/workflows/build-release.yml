@@ -1,0 +1,44 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v1
+        with:
+          version: master
+
+      - name: Download WASM4
+        uses: robinraju/release-downloader@v1.3
+        with:
+          repository: aduros/wasm4
+          tag: v2.2.0
+          fileName: w4-linux.zip
+
+      - name: Unzip WASM4
+        run: |
+          unzip w4-linux.zip
+          rm -f w4-linux.zip
+
+      - name: Build the release
+        run: |
+          zig build -Drelease-small
+          ./w4 bundle build/cart.wasm --title "Crossing Party Lines" index.html
+          mkdir pages && mv index.html pages
+      
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        with:
+          branch: gh-pages
+          folder: pages
