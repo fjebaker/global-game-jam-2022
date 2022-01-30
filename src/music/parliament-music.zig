@@ -1,6 +1,7 @@
 const tone = @import("tone.zig");
 const tune = @import("tune.zig");
 const note = @import("note.zig");
+const music = @import("music.zig");
 
 const c5 = note.getFreq("C 5".*);
 const c4 = note.getFreq("C 4".*);
@@ -174,8 +175,4 @@ var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .ton
 var harmony = tune.Tune{ .notes = &harmonyNotes, .numNotes = harmonyNotes.len, .tone = &harmonyTone, .introEndNote = 10 };
 var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone, .introEndNote = 15 };
 
-pub fn parliamentMusic() void {
-    melody.play();
-    drums.play();
-    harmony.play();
-}
+pub const parliamentMusic = music.Music { .part1 = &melody, .part2 = &harmony, .part3 = &drums };
