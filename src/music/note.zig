@@ -1,11 +1,12 @@
 const c4 = 261.63;
+const cHalfSharp4 = 269.296344173;
 const twelfthRootOfTwo = 1.05946309436;
 
 // Models a single note sustained for a fixed amount of time
 pub const Note = struct { sfreq: u16, efreq: u16, length: u8, on: bool = true };
 
-fn getEqualTemperamentFreq(toneOffset: i16, semitoneMod: i16, octave: u8) u16 {
-    var freq: f16 = c4;
+fn getEqualTemperamentFreq(initial: f16, toneOffset: i16, semitoneMod: i16, octave: u8) u16 {
+    var freq: f16 = initial;
     // Traverse the relevant number of semitones
 
     var totalSemitoneDiff = toneOffset + semitoneMod;
@@ -32,7 +33,7 @@ fn getEqualTemperamentFreq(toneOffset: i16, semitoneMod: i16, octave: u8) u16 {
 }
 
 // Takes a note id such as 'C 4', 'F#5' or 'Bb3'
-pub fn getFreq(noteId: [3]u8) u16 {
+fn getFreqWInit(initial: f16, noteId: [3]u8) u16 {
     const toneDiff: i16 = switch (noteId[0]) {
         'C' => 0,
         'D' => 2,
@@ -61,5 +62,13 @@ pub fn getFreq(noteId: [3]u8) u16 {
         '9' => 9,
         else => 4,
     };
-    return getEqualTemperamentFreq(toneDiff, semitoneMod, octave);
+    return getEqualTemperamentFreq(initial, toneDiff, semitoneMod, octave);
+}
+
+pub fn getFreq(noteId: [3]u8) u16 {
+    return getFreqWInit(c4, noteId);
+}
+
+pub fn getFreqHalfSharp(noteId: [3]u8) u16 {
+    return getFreqWInit(cHalfSharp4, noteId);
 }
