@@ -34,7 +34,7 @@ jobs:
       - name: Build the release
         run: |
           zig build -Drelease-small
-          ./w4 bundle build/cart.wasm --html --title "Crossing Party Lines" index.html
+          ./w4 bundle build/cart.wasm --title "Crossing Party Lines" --html index.html
           mkdir pages && mv index.html pages
       
       - name: Deploy to gh-pages branch
