@@ -32,7 +32,7 @@ export fn start() void {
         0x00FFFFFF,
     };
 
-    rnd = RndGen.init(2).random();
+    rnd = RndGen.init(0).random();
 
     // init the allocation buffer
     state = statemachine.StateMachine.init();

@@ -12,6 +12,8 @@ pub const Projectile = struct {
 
     velocity: u32 = 2,
     facing: Facing = .UP,
+    player_targetable: bool = false,
+    other_targetable: bool = false,
 
     pub fn init(sprite: sprites.Image, x: u32, y: u32, dir: Facing) Projectile {
         return Projectile{ .sprite = sprite, .x = x, .y = y, .facing = dir };

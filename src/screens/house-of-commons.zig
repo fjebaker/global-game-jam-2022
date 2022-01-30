@@ -5,6 +5,7 @@ const w4 = @import("../wasm4.zig");
 
 const statusbar = @import("../components/status-bar.zig");
 const projectile = @import("../components/projectile.zig");
+const gavels = @import("../components/gavel.zig");
 
 const Facing = projectile.Facing;
 const Projectile = projectile.Projectile;
@@ -14,7 +15,7 @@ const sprites = @import("../assets/sprites.zig");
 const SIDE_PADDING: u8 = 4;
 const SCREEN_SIZE: u8 = 160;
 const SURVIVE_TIME: u32 = 1000;
-const ACTION_COOLDOWN: u32 = 1 * 30;
+const ACTION_COOLDOWN: u32 = 1 * 10;
 
 pub const Parliament = struct {
     px: u8 = SCREEN_SIZE / 2,
@@ -80,13 +81,10 @@ pub const Parliament = struct {
     fn updateProjectiles(self: *@This()) void {
         // draw all of the projectiles
         if (self.proj_index != 0) {
-            for (self.projectiles) |*proj, i| {
-                if (i == self.proj_index) { // points to top of stack
-                    break;
-                } else {
-                    proj.update();
-                    proj.draw();
-                }
+            for (self.projectiles) |*proj| {
+                // TODO: do we need to check if objects are off screen?
+                proj.update();
+                proj.draw();
             }
         }
     }
@@ -226,5 +224,8 @@ pub const Parliament = struct {
         w4.tracef("Direction %d", self.facing);
         const p = Projectile.init(sprites.flag, self.px, self.py, self.facing);
         self.pushProjectile(p);
+
+        const g = gavels.randomGavel(self.rnd);
+        self.pushProjectile(g);
     }
 };
