@@ -7,6 +7,7 @@ const party = @import("screens/party.zig");
 const presscon = @import("screens/press-conference.zig");
 const startscreen = @import("screens/start-screen.zig");
 const houseofcommons = @import("screens/house-of-commons.zig");
+const bigben = @import("screens/big-ben.zig");
 
 const gamepad = @import("gamepad.zig");
 const std = @import("std");
@@ -52,6 +53,7 @@ export fn update() void {
         .AT_PRESS_CONFERENCE => pressconstate.update(&state, &player, &partystate.choices),
         .AT_HOUSE_OF_COMMONS => parliament.update(&state, &player),
         .START_SCREEN => startscreen.update(&state, &player),
+        .BIG_BEN => bigben.update(),
         .ROUND_DONE => {
             // tally score
             // reset state and go again
