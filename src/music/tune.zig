@@ -28,4 +28,10 @@ pub const Tune = struct {
         }
         self.frame += 1;
     }
+
+    pub fn reset(self: *Tune) void {
+        self.frame = 0;
+        self.currLength = 0;
+        self.currIndex = 0;
+    }
 };
