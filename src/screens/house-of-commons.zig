@@ -56,7 +56,7 @@ pub const Parliament = struct {
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
         w4.DRAW_COLORS.* = 0x0432;
         w4.blit(sprites.commons.data, 0, 0, // x, y
-                sprites.commons.width, sprites.commons.height, sprites.commons.flags);
+            sprites.commons.width, sprites.commons.height, sprites.commons.flags);
 
         // XXX: Hack the benches in. This will need to change.
         const b_width = sprites.bench.width;
@@ -109,8 +109,11 @@ pub const Parliament = struct {
     fn updateProjectiles(self: *@This()) void {
         // draw all of the projectiles
         if (self.proj_index != 0) {
-            for (self.projectiles) |*proj| {
+            for (self.projectiles) |*proj, i| {
                 // TODO: do we need to check if objects are off screen?
+                if (i == self.proj_index) {
+                    break;
+                }
                 proj.update();
                 proj.draw();
             }
@@ -224,7 +227,6 @@ pub const Parliament = struct {
         }
 
         if (pl.isPressed(w4.BUTTON_1) and self.cooldown == 0) {
-            w4.trace("THROW");
             self.cooldown = ACTION_COOLDOWN;
             self.throw();
         }
@@ -249,9 +251,11 @@ pub const Parliament = struct {
     }
 
     fn throw(self: *@This()) void {
-        w4.tracef("Direction %d", self.facing);
         const p = Projectile.init(sprites.vax, self.px, self.py, self.facing);
         self.pushProjectile(p);
+
+        // please NEVER delete
+        w4.tracef("%d", self.rnd.int(u32));
 
         const g = gavels.randomGavel(self.rnd);
         self.pushProjectile(g);

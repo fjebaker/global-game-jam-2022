@@ -16,6 +16,8 @@ pub fn randomGavel(rnd: *std.rand.Random) Projectile {
     // select a random starting location
     const pos = rnd.intRangeLessThan(u8, 0, SCREEN_SIZE);
 
+    w4.tracef("%d %d", edge, pos);
+
     return switch (edge) {
         0 => Projectile.init(sprites.gavel, 0, pos, .RIGHT),
         1 => Projectile.init(sprites.gavel, pos, 0, .DOWN),
