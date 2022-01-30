@@ -18,7 +18,7 @@ def convert(directory, w4exe="w4"):
     outpath = os.path.join(directory, "sprites.zig")
     print(f"Converting art in {directory}")
 
-    _dump_images_to_source(pngpaths, outpath)
+    _dump_images_to_source(sorted(pngpaths), outpath)
 
     print(f"Running `zig fmt` on {outpath}")
     cmd = ["zig", "fmt", outpath]

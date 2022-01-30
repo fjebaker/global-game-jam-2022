@@ -17,9 +17,9 @@ pub fn randomGavel(rnd: *std.rand.Random) Projectile {
     const pos = rnd.intRangeLessThan(u8, 0, SCREEN_SIZE);
 
     return switch (edge) {
-        0 => Projectile.init(sprites.flag, 0, pos, .RIGHT),
-        1 => Projectile.init(sprites.flag, pos, 0, .DOWN),
-        2 => Projectile.init(sprites.flag, 0, pos, .RIGHT),
-        else => Projectile.init(sprites.flag, pos, 0, .UP),
+        0 => Projectile.init(sprites.gavel, 0, pos, .RIGHT),
+        1 => Projectile.init(sprites.gavel, pos, 0, .DOWN),
+        2 => Projectile.init(sprites.gavel, 0, pos, .RIGHT),
+        else => Projectile.init(sprites.gavel, pos, 0, .UP),
     };
 }
