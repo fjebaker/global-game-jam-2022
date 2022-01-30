@@ -10,7 +10,7 @@ const statusbar = @import("../components/status-bar.zig");
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 var start_ticks: u32 = 0;
 const SCREEN_SIZE: u8 = 160;
-const MAX_BUZZED = 500;
+const MAX_BUZZED = 120;
 
 
 var buzzedBar: statusbar.StatusBar = undefined;
@@ -66,6 +66,7 @@ pub const PartyState = struct {
 
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARTY", 0, 0);
+        w4.text("FECKLESS", SCREEN_SIZE - (8 * 8), 18);
         self.handleInput(state, pl);
         self.prompt.update();
 

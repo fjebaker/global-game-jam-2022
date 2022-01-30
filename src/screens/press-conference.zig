@@ -5,9 +5,14 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 const sprites = @import("../assets/sprites.zig");
+const statusbar = @import("../components/status-bar.zig");
 
 var start_ticks: u32 = 0;
 const all_situations = @import("../assets/presscon-situations.zig").all_press_conference_situations;
+const SCREEN_SIZE: u8 = 160;
+const MAX_CONFIDENCE = 120;
+
+var confidenceBar: statusbar.StatusBar = undefined;
 
 pub const PressState = struct {
     prompt: prompts.Prompt,
@@ -29,6 +34,11 @@ pub const PressState = struct {
             .prompt = prompts.buttonPrompt(),
             .rnd = rnd,
         };
+        confidenceBar = statusbar.StatusBar {
+            .locy = 8,
+            .maximum_value = MAX_CONFIDENCE,
+            .value = MAX_CONFIDENCE
+        };
 
         ps.setRandomSituation();
         return ps;
@@ -44,8 +54,14 @@ pub const PressState = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad, disallowed: []const u8) void {
+        // init confidence bar value
+        confidenceBar.value = state.confidence;
+        // draw the confidence bar
+        confidenceBar.draw();
+        
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PRESS CONFERENCE", 0, 0);
+        w4.text("CONFIDENCE", SCREEN_SIZE - (10 * 8), 18);
         // set disallowed
         self.prompt.disallow = disallowed[self.round];
         self.handleInput(state, pl);
