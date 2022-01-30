@@ -19,6 +19,11 @@ pub const SueGrayReport = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
+        w4.DRAW_COLORS.* = 0x42;  
+        var buf: [4]u8 = undefined;
+        toString(state.confidence, &buf);
+        w4.text(&buf, 15, 105);
+        
         if (self.ticker > TIMEOUT) {
             self.handleInput(state, pl);
 
@@ -32,21 +37,16 @@ pub const SueGrayReport = struct {
     }
 
     fn draw(_: *const @This(), state: *const statemachine.StateMachine) void {
+        w4.DRAW_COLORS.* = 0x42;
+        var buf: [4]u8 = undefined;
+        toString(state.buzzing, &buf);
+        w4.text(&buf, 15, 65);
+        
         w4.DRAW_COLORS.* = 0x02;
         w4.text("SUE GRAY REPORT", 20, 5);
         w4.DRAW_COLORS.* = 0x03;
         w4.text("On the 5th of Jan,\nBohnson was found\npartying in 10\nDowning Street. He\nwas:", 5, 20);
         w4.text("Now has a Vote of\nConfidence of", 5, 80);
-
-        w4.DRAW_COLORS.* = 0x42;
-
-        var buf: [3]u8 = [_]u8{ 0, 0, 0 };
-        toString(state.buzzing, &buf);
-        w4.text(&buf, 10, 65);
-
-        toString(state.confidence, &buf);
-        w4.text(&buf, 10, 105);
-
         w4.DRAW_COLORS.* = 0x02;
         w4.text("%Feckless", 43, 65);
         w4.text("%Confidence", 43, 105);
