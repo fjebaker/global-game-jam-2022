@@ -46,8 +46,6 @@ export fn start() void {
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
     suegrayreport = suegray.SueGrayReport.init();
-
-    state.screen = .SUE_GRAY;
 }
 
 var ticker: u32 = 0;
