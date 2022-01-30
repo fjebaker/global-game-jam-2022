@@ -8,21 +8,16 @@ pub const Projectile = struct {
     x: u32,
     y: u32,
     xOff: u32 = 0,
-    colors: u16 =  0x2430,
+    colors: u16 = 0x2430,
 
     velocity: u32 = 2,
     facing: Facing = .UP,
 
     pub fn init(sprite: sprites.Image, x: u32, y: u32, dir: Facing) Projectile {
-        return Projectile{
-            .sprite = sprite,
-            .x = x,
-            .y = y,
-            .facing = dir
-        };
+        return Projectile{ .sprite = sprite, .x = x, .y = y, .facing = dir };
     }
 
-    pub fn update(self: * @This()) void {
+    pub fn update(self: *@This()) void {
         //self.draw();
         self.move();
     }
@@ -35,13 +30,21 @@ pub const Projectile = struct {
             self.sprite.flags);
     }
 
-    pub fn move(self: * @This()) void {
+    pub fn move(self: *@This()) void {
         w4.DRAW_COLORS.* = self.colors;
         switch (self.facing) {
-            .UP => {self.y -= self.velocity;},
-            .DOWN => {self.y += self.velocity;},
-            .LEFT => {self.x -= self.velocity;},
-            .RIGHT => {self.x += self.velocity;}
+            .UP => {
+                self.y -= self.velocity;
+            },
+            .DOWN => {
+                self.y += self.velocity;
+            },
+            .LEFT => {
+                self.x -= self.velocity;
+            },
+            .RIGHT => {
+                self.x += self.velocity;
+            },
         }
     }
 

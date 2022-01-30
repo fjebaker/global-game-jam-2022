@@ -30,9 +30,9 @@ pub const Parliament = struct {
     facing: Facing = .UP,
 
     // static array for keeping all of the projectiles
-    projectiles: [128] Projectile = undefined,
+    projectiles: [128]Projectile = undefined,
     // stack pointer (points to top)
-    proj_index: u32 = 0, // index for keeping track of the projectile stack 
+    proj_index: u32 = 0, // index for keeping track of the projectile stack
 
     timebar: statusbar.StatusBar = undefined,
 
@@ -77,7 +77,7 @@ pub const Parliament = struct {
         }
     }
 
-    fn updateProjectiles(self: * @This()) void {
+    fn updateProjectiles(self: *@This()) void {
         // draw all of the projectiles
         if (self.proj_index != 0) {
             for (self.projectiles) |*proj, i| {
@@ -204,7 +204,7 @@ pub const Parliament = struct {
         }
     }
 
-    fn pushProjectile(self: * @This(), p: Projectile) void {
+    fn pushProjectile(self: *@This(), p: Projectile) void {
         self.projectiles[self.proj_index] = p;
         // if we reach end, circle around
         self.proj_index += 1;
@@ -226,6 +226,5 @@ pub const Parliament = struct {
         w4.tracef("Direction %d", self.facing);
         const p = Projectile.init(sprites.flag, self.px, self.py, self.facing);
         self.pushProjectile(p);
-        
     }
 };
