@@ -16,6 +16,7 @@ const SIDE_PADDING: u8 = 4;
 const SCREEN_SIZE: u8 = 160;
 const SURVIVE_TIME: u32 = 1000;
 const ACTION_COOLDOWN: u32 = 1 * 10;
+const GAVEL_SPAWN_CHANCE: u8 = 245;
 
 pub const Parliament = struct {
     px: u8 = SCREEN_SIZE / 2,
@@ -29,6 +30,7 @@ pub const Parliament = struct {
     inverted: bool = false,
     cooldown: u32 = 0,
     facing: Facing = .UP,
+    hit: bool = false,
 
     // static array for keeping all of the projectiles
     projectiles: [128]Projectile = undefined,
@@ -54,33 +56,8 @@ pub const Parliament = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
-        w4.DRAW_COLORS.* = 0x0432;
-        w4.blit(sprites.commons.data, 0, 0, // x, y
-            sprites.commons.width, sprites.commons.height, sprites.commons.flags);
-
-        // XXX: Hack the benches in. This will need to change.
-        const b_width = sprites.bench.width;
-        const b_height = sprites.bench.height;
-        const x_flip = 0x2;
-        const xs = .{ 17, 17*2+b_width, 160-17*2-b_width*2, 160-17-b_width};
-        const ys = .{ 160-17-b_height, 160-17*2-b_height*2};
-        w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-        w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
-
-        w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
-        w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
-        w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
-        w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+        // background
+        drawCommons();
 
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
@@ -94,9 +71,14 @@ pub const Parliament = struct {
             self.timebar.value -= 1;
         }
         self.timebar.draw();
+
+
         // projectiles
+        self.randomGavelSpawn();
         self.updateProjectiles();
         self.draw();
+
+        self.checkCollisions();
 
         if (self.timebar.value == 0) {
             // reset states
@@ -256,8 +238,57 @@ pub const Parliament = struct {
 
         // please NEVER delete
         w4.tracef("%d", self.rnd.int(u32));
+    }
 
-        const g = gavels.randomGavel(self.rnd);
-        self.pushProjectile(g);
+    fn randomGavelSpawn(self: *@This()) void {
+        const ri = self.rnd.int(u8); 
+        if ( ri > GAVEL_SPAWN_CHANCE ) {
+            var g = gavels.randomGavel(self.rnd);
+            g.player_targetable = true;
+            self.pushProjectile(g);
+        }
+    }
+
+    fn checkCollisions(self: *@This()) void {
+        for (self.projectiles) |*proj| {
+            // check if any gavels have collided with player
+            if (proj.player_targetable and proj.onScreen()) {
+                if (proj.inArea(self.px, self.py, 4)) {
+                    self.hit = true;
+                    w4.trace("HIT");
+                }
+            }
+        }
     }
 };
+
+
+fn drawCommons() void {
+        w4.DRAW_COLORS.* = 0x0432;
+        w4.blit(sprites.commons.data, 0, 0, // x, y
+            sprites.commons.width, sprites.commons.height, sprites.commons.flags);
+
+        // XXX: Hack the benches in. This will need to change.
+        const b_width = sprites.bench.width;
+        const b_height = sprites.bench.height;
+        const x_flip = 0x2;
+        const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
+        const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
+        w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+
+        w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+        w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+        w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+        w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
+}
