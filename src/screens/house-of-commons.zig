@@ -226,7 +226,6 @@ pub const Parliament = struct {
         }
 
         if (pl.isPressed(w4.BUTTON_1) and self.cooldown == 0) {
-            w4.trace("THROW");
             self.cooldown = ACTION_COOLDOWN;
             self.throw();
         }
@@ -251,7 +250,6 @@ pub const Parliament = struct {
     }
 
     fn throw(self: *@This()) void {
-        w4.tracef("Direction %d", self.facing);
         const p = Projectile.init(sprites.vax, self.px, self.py, self.facing);
         self.pushProjectile(p);
 
