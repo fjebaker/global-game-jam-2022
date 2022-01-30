@@ -3,6 +3,10 @@ name: Build Release
 on:
   workflow_dispatch:
   release:
+    types: [published]
+  push:
+    tags:
+      - '*'
 
 jobs:
   build-release:
@@ -31,3 +35,10 @@ jobs:
         run: |
           zig build -Drelease-small
           ./w4 bundle build/cart.wasm --title "Crossing Party Lines" index.html
+          mkdir pages && mv index.html pages
+      
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        with:
+          branch: gh-pages
+          folder: pages
