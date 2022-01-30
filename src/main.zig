@@ -64,7 +64,7 @@ export fn update() void {
     }
     switch (state.screen) {
         .AT_PARTY => partyvibez.partyVibezMusic(),
-        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic(),
+        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic.play(),
         else => titletheme.mainMenuMusic(),
     }
     player.update();
