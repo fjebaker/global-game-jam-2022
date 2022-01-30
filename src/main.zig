@@ -1,9 +1,6 @@
 const w4 = @import("wasm4.zig");
 const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
-const titletheme = @import("music/title-theme.zig");
-const partyvibez = @import("music/party-vibez.zig");
-const parliamentmusic = @import("music/parliament-music.zig");
 const party = @import("screens/party.zig");
 const presscon = @import("screens/press-conference.zig");
 const startscreen = @import("screens/start-screen.zig");
@@ -77,10 +74,6 @@ export fn update() void {
         },
         else => {},
     }
-    switch (state.screen) {
-        .AT_PARTY => partyvibez.partyVibezMusic.play(),
-        .AT_HOUSE_OF_COMMONS => parliamentmusic.parliamentMusic.play(),
-        else => titletheme.mainMenuMusic.play(),
-    }
+    state.playMusic();
     player.update();
 }
