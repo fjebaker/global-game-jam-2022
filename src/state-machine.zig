@@ -26,6 +26,6 @@ pub const StateMachine = struct {
     }
 
     pub fn init() StateMachine {
-        return StateMachine{ .screen = .START_SCREEN, .buzzing = 0 };
+        return StateMachine{ .screen = .START_SCREEN };
     }
 };
