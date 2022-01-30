@@ -56,30 +56,30 @@ pub const Parliament = struct {
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *gamepad.GamePad) void {
         w4.DRAW_COLORS.* = 0x0432;
         w4.blit(sprites.commons.data, 0, 0, // x, y
-                sprites.commons.width, sprites.commons.height, sprites.commons.flags);
+            sprites.commons.width, sprites.commons.height, sprites.commons.flags);
 
         // XXX: Hack the benches in. This will need to change.
         const b_width = sprites.bench_left.width;
         const b_height = sprites.bench_left.height;
-        const xs = .{ 17, 17*2+b_width, 160-17*2-b_width*2, 160-17-b_width};
-        const ys = .{ 160-17-b_height, 160-17*2-b_height*2};
+        const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
+        const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
         w4.blit(sprites.bench_left.data, xs[0], ys[0], // x, y
-                sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
+            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
         w4.blit(sprites.bench_left.data, xs[1], ys[0], // x, y
-                sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
+            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
         w4.blit(sprites.bench_left.data, xs[0], ys[1], // x, y
-                sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
+            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
         w4.blit(sprites.bench_left.data, xs[1], ys[1], // x, y
-                sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
+            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
 
         w4.blit(sprites.bench_right.data, xs[2], ys[0], // x, y
-                sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
+            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
         w4.blit(sprites.bench_right.data, xs[3], ys[0], // x, y
-                sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
+            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
         w4.blit(sprites.bench_right.data, xs[2], ys[1], // x, y
-                sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
+            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
         w4.blit(sprites.bench_right.data, xs[3], ys[1], // x, y
-                sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
+            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
 
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
@@ -254,7 +254,8 @@ pub const Parliament = struct {
         w4.tracef("Direction %d", self.facing);
         const p = Projectile.init(sprites.vax, self.px, self.py, self.facing);
         self.pushProjectile(p);
-        
+
+        // please NEVER delete
         w4.tracef("%d", self.rnd.int(u32));
 
         const g = gavels.randomGavel(self.rnd);
