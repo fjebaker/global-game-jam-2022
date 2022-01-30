@@ -61,12 +61,12 @@ pub const Menu = struct {
         self.art_ticks += 1;
     }
 
-    pub fn update(self: *@This(), _: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
-        self.handleInput(pl);
+    pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+        self.handleInput(state, pl);
         self.draw();
     }
 
-    fn handleInput(self: *@This(), pl: *const gamepad.GamePad) void {
+    fn handleInput(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
         if (pl.isPressed(w4.BUTTON_DOWN)) {
             if (self.selection >= 1) {
                 // do nothing
@@ -79,6 +79,14 @@ pub const Menu = struct {
                 // do nothing
             } else {
                 self.selection -= 1;
+            }
+        }
+
+        if (pl.isPressed(w4.BUTTON_1)) {
+            if (self.selection == 0) {
+                state.change(.AT_PARTY);
+            } else {
+                state.change(.START_SCREEN);
             }
         }
     }
