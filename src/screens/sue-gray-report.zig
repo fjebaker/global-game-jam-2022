@@ -27,7 +27,11 @@ const SueGrayReport = struct {
         self.draw(state);
     }
 
-    fn draw(state: * const statemachine.StateMachine) void {
+    fn draw(self: * const @This(), state: * const statemachine.StateMachine) void {
         
+    }
+
+    fn handleInput(self: * const @This(), state: * statemachine.StateMachine, pl: * gamepad.GamePad) void {
+
     }
 };
