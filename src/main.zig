@@ -2,6 +2,7 @@ const w4 = @import("wasm4.zig");
 const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
 const titletheme = @import("music/title-theme.zig");
+const partyvibez = @import("music/party-vibez.zig");
 const party = @import("screens/party.zig");
 const presscon = @import("screens/press-conference.zig");
 const startscreen = @import("screens/start-screen.zig");
@@ -41,7 +42,7 @@ export fn start() void {
     menustate = mainmenu.Menu.init();
     parliament = houseofcommons.Parliament.init(&rnd);
 
-    state.screen = .AT_HOUSE_OF_COMMONS;
+    state.change(.AT_HOUSE_OF_COMMONS);
 }
 
 export fn update() void {
@@ -54,10 +55,13 @@ export fn update() void {
         .ROUND_DONE => {
             // tally score
             // reset state and go again
-            state.screen = .AT_PARTY;
+            state.change(.AT_PARTY);
         },
         else => {},
     }
-    titletheme.mainMenuMusic();
+    switch (state.screen) {
+        .AT_PARTY => partyvibez.partyVibezMusic(),
+        else => titletheme.mainMenuMusic(),
+    }
     player.update();
 }

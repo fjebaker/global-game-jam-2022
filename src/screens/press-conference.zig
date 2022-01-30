@@ -89,7 +89,7 @@ pub const PressState = struct {
             if (self.round >= 3) {
                 // reset self
                 self.reset();
-                state.screen = .AT_HOUSE_OF_COMMONS;
+                state.change(.AT_HOUSE_OF_COMMONS);
             } else {
                 // new situation
                 self.setRandomSituation();

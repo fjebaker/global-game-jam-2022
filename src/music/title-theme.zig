@@ -1,4 +1,3 @@
-// Placeholder implementation - not complete
 const tone = @import("tone.zig");
 const tune = @import("tune.zig");
 const note = @import("note.zig");

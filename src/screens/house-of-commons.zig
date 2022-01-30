@@ -59,27 +59,28 @@ pub const Parliament = struct {
             sprites.commons.width, sprites.commons.height, sprites.commons.flags);
 
         // XXX: Hack the benches in. This will need to change.
-        const b_width = sprites.bench_left.width;
-        const b_height = sprites.bench_left.height;
-        const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
-        const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
-        w4.blit(sprites.bench_left.data, xs[0], ys[0], // x, y
-            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
-        w4.blit(sprites.bench_left.data, xs[1], ys[0], // x, y
-            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
-        w4.blit(sprites.bench_left.data, xs[0], ys[1], // x, y
-            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
-        w4.blit(sprites.bench_left.data, xs[1], ys[1], // x, y
-            sprites.bench_left.width, sprites.bench_left.height, sprites.bench_left.flags);
+        const b_width = sprites.bench.width;
+        const b_height = sprites.bench.height;
+        const x_flip = 0x2;
+        const xs = .{ 17, 17*2+b_width, 160-17*2-b_width*2, 160-17-b_width};
+        const ys = .{ 160-17-b_height, 160-17*2-b_height*2};
+        w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+        w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
 
-        w4.blit(sprites.bench_right.data, xs[2], ys[0], // x, y
-            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
-        w4.blit(sprites.bench_right.data, xs[3], ys[0], // x, y
-            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
-        w4.blit(sprites.bench_right.data, xs[2], ys[1], // x, y
-            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
-        w4.blit(sprites.bench_right.data, xs[3], ys[1], // x, y
-            sprites.bench_right.width, sprites.bench_right.height, sprites.bench_right.flags);
+        w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+        w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+        w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+        w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
+                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
 
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
@@ -101,7 +102,7 @@ pub const Parliament = struct {
             // reset states
             self.reset();
             // go back to the party
-            state.screen = .ROUND_DONE;
+            state.change(.ROUND_DONE);
         }
     }
 
