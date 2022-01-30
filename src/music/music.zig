@@ -2,17 +2,19 @@ const tune = @import("tune.zig");
 
 // Convenience struct for 3 part music
 pub const Music = struct {
-    parts: [3]tune.Tune,
+    part1: *tune.Tune,
+    part2: *tune.Tune,
+    part3: *tune.Tune,
 
-    pub fn play(self: *Music) void {
-        parts[0].play()
-        parts[1].play()
-        parts[2].play()
+    pub fn play(self: *const Music) void {
+        self.part1.*.play();
+        self.part2.*.play();
+        self.part3.*.play();
     }
 
-    pub fn reset(self: *Music) void {
-        parts[0].reset()
-        parts[1].reset()
-        parts[2].reset()
+    pub fn reset(self: *const Music) void {
+        self.part1.*.reset();
+        self.part2.*.reset();
+        self.part3.*.reset();
     }
 };
