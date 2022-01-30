@@ -1,7 +1,9 @@
 const w4 = @import("../wasm4.zig");
 const sprites = @import("../assets/sprites.zig");
+const std = @import("std");
 
 pub const Facing = enum { UP, DOWN, LEFT, RIGHT };
+const SCREEN_SIZE: u8 = 160;
 
 pub const Projectile = struct {
     sprite: sprites.Image,
@@ -52,5 +54,19 @@ pub const Projectile = struct {
 
     pub fn inBounds(_: *const @This()) void {
         return true;
+    }
+
+    pub fn onScreen(self: *const @This()) bool {
+        const y_good = self.y > 0 and self.y < SCREEN_SIZE;
+        const x_good = self.x > 0 and self.x < SCREEN_SIZE;
+
+        return y_good and x_good;
+    }
+
+    pub fn inArea(self: *const @This(), x: u8, y: u8, radius: u32) bool {
+        const sqx: u32 = @intCast(u32, std.math.pow(i16, (@intCast(i16, x) - @intCast(i16, self.x)), 2));
+        const sqy: u32 = @intCast(u32, std.math.pow(i16, (@intCast(i16, y) - @intCast(i16, self.y)), 2));
+
+        return std.math.sqrt(sqx ^ 2 + sqy ^ 2) < radius;
     }
 };

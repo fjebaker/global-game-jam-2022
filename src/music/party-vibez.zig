@@ -42,7 +42,7 @@ var melodyNotes = [_]note.Note{
     note.Note{ .sfreq = e4, .efreq = ds5, .length = 30 },
     note.Note{ .sfreq = d4, .efreq = d5, .length = 30 },
     note.Note{ .sfreq = g4, .efreq = d4, .length = 30 },
-    note.Note{ .sfreq = d4, .efreq = d4, .length = 8 }, 
+    note.Note{ .sfreq = d4, .efreq = d4, .length = 8 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 7 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 30, .on = false },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 8 },
@@ -122,7 +122,7 @@ var drumNotes = [_]note.Note{
 };
 var bassNotes = [_]note.Note{
     note.Note{ .sfreq = c5, .efreq = c5, .length = 120, .on = false },
-    note.Note{ .sfreq = fs3, .efreq = fs3, .length = 8 }, 
+    note.Note{ .sfreq = fs3, .efreq = fs3, .length = 8 },
     note.Note{ .sfreq = fs3, .efreq = fs3, .length = 7 },
     note.Note{ .sfreq = d4, .efreq = d4, .length = 30, .on = false },
     note.Note{ .sfreq = fs3, .efreq = fs3, .length = 8 },

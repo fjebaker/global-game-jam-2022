@@ -29,6 +29,7 @@ pub const Parliament = struct {
     inverted: bool = false,
     cooldown: u32 = 0,
     facing: Facing = .UP,
+    hit: bool = false,
 
     // static array for keeping all of the projectiles
     projectiles: [128]Projectile = undefined,
@@ -62,25 +63,25 @@ pub const Parliament = struct {
         const b_width = sprites.bench.width;
         const b_height = sprites.bench.height;
         const x_flip = 0x2;
-        const xs = .{ 17, 17*2+b_width, 160-17*2-b_width*2, 160-17-b_width};
-        const ys = .{ 160-17-b_height, 160-17*2-b_height*2};
+        const xs = .{ 17, 17 * 2 + b_width, 160 - 17 * 2 - b_width * 2, 160 - 17 - b_width };
+        const ys = .{ 160 - 17 - b_height, 160 - 17 * 2 - b_height * 2 };
         w4.blit(sprites.bench.data, xs[0], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
         w4.blit(sprites.bench.data, xs[1], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
         w4.blit(sprites.bench.data, xs[0], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
         w4.blit(sprites.bench.data, xs[1], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags);
 
         w4.blit(sprites.bench.data, xs[2], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
         w4.blit(sprites.bench.data, xs[3], ys[0], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
         w4.blit(sprites.bench.data, xs[2], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
         w4.blit(sprites.bench.data, xs[3], ys[1], // x, y
-                sprites.bench.width, sprites.bench.height, sprites.bench.flags|x_flip);
+            sprites.bench.width, sprites.bench.height, sprites.bench.flags | x_flip);
 
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARLIAMENT", 0, 0);
@@ -97,6 +98,8 @@ pub const Parliament = struct {
         // projectiles
         self.updateProjectiles();
         self.draw();
+
+        self.checkCollisions();
 
         if (self.timebar.value == 0) {
             // reset states
@@ -257,7 +260,20 @@ pub const Parliament = struct {
         // please NEVER delete
         w4.tracef("%d", self.rnd.int(u32));
 
-        const g = gavels.randomGavel(self.rnd);
+        var g = gavels.randomGavel(self.rnd);
+        g.player_targetable = true;
         self.pushProjectile(g);
+    }
+
+    fn checkCollisions(self: *@This()) void {
+        for (self.projectiles) |*proj| {
+            // check if any gavels have collided with player
+            if (proj.player_targetable and proj.onScreen()) {
+                if (proj.inArea(self.px, self.py, 4)) {
+                    self.hit = true;
+                    w4.trace("HIT");
+                }
+            }
+        }
     }
 };
