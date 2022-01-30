@@ -321,4 +321,4 @@ var melody = tune.Tune{ .notes = &melodyNotes, .numNotes = melodyNotes.len, .ton
 var drums = tune.Tune{ .notes = &drumNotes, .numNotes = drumNotes.len, .tone = &drumTone, .introEndNote = 12 };
 var bass = tune.Tune{ .notes = &bassNotes, .numNotes = bassNotes.len, .tone = &bassTone, .introEndNote = 8 };
 
-pub const partyVibezMusic = music.Music { .part1 = &melody, .part2 = &drums, .part3 = &bass };
+pub const partyVibezMusic = music.Music{ .part1 = &melody, .part2 = &drums, .part3 = &bass };

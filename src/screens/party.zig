@@ -12,7 +12,6 @@ var start_ticks: u32 = 0;
 const SCREEN_SIZE: u8 = 160;
 const MAX_BUZZED = 120;
 
-
 var buzzedBar: statusbar.StatusBar = undefined;
 
 pub const PartyState = struct {
@@ -39,11 +38,7 @@ pub const PartyState = struct {
             .prompt = prompts.buttonPrompt(),
             .rnd = rnd,
         };
-        buzzedBar = statusbar.StatusBar {
-            .locy = 8,
-            .maximum_value = MAX_BUZZED,
-            .value = MAX_BUZZED
-        };
+        buzzedBar = statusbar.StatusBar{ .locy = 8, .maximum_value = MAX_BUZZED, .value = MAX_BUZZED };
 
         ps.setRandomSituation();
         return ps;
@@ -59,7 +54,7 @@ pub const PartyState = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
-        // init buzz bar value 
+        // init buzz bar value
         buzzedBar.value = state.buzzing;
         // draw the buzzed bar
         buzzedBar.draw();
