@@ -2,6 +2,7 @@ const w4 = @import("wasm4.zig");
 const statemachine = @import("state-machine.zig");
 const mainmenu = @import("screens/main-menu.zig");
 const titletheme = @import("music/title-theme.zig");
+const partyvibez = @import("music/party-vibez.zig");
 const party = @import("screens/party.zig");
 const startscreen = @import("screens/start-screen.zig");
 const gamepad = @import("gamepad.zig");
@@ -44,6 +45,9 @@ export fn update() void {
         .START_SCREEN => startscreen.update(),
         else => {},
     }
-    titletheme.mainMenuMusic();
+    switch (state.screen) {
+        .AT_PARTY => partyvibez.partyVibezMusic(),
+        else => titletheme.mainMenuMusic(),
+    }
     player.update();
 }
