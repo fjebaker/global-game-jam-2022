@@ -26,12 +26,20 @@ pub const Projectile = struct {
         self.move();
     }
 
+    
+
     pub fn draw(self: *const @This()) void {
+        var flags: u32 = switch(self.facing) {
+            .UP => 0x4,
+            .DOWN => 0x0,
+            .LEFT => 0b1100,
+            .RIGHT => 0x8,
+        };
         w4.blitSub(self.sprite.data, @intCast(i32, self.x) - @divTrunc(self.sprite.width, 2), @intCast(i32, self.y), // x, y
             self.sprite.height, self.sprite.height, // w, h; Assumes square
             self.xOff, 0, // src_x, src_y
             self.sprite.width, // Assumes stride and width are equal
-            self.sprite.flags);
+            self.sprite.flags|flags);
     }
 
     pub fn move(self: *@This()) void {
