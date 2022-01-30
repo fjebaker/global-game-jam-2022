@@ -5,10 +5,15 @@ const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
 const sprites = @import("../assets/sprites.zig");
+const statusbar = @import("../components/status-bar.zig");
 
 const all_situations = @import("../assets/party-situations.zig").all_party_situations;
 var start_ticks: u32 = 0;
-var prompt: prompts.Prompt = undefined;
+const SCREEN_SIZE: u8 = 160;
+const MAX_BUZZED = 120;
+
+
+var buzzedBar: statusbar.StatusBar = undefined;
 
 pub const PartyState = struct {
     prompt: prompts.Prompt,
@@ -34,6 +39,11 @@ pub const PartyState = struct {
             .prompt = prompts.buttonPrompt(),
             .rnd = rnd,
         };
+        buzzedBar = statusbar.StatusBar {
+            .locy = 8,
+            .maximum_value = MAX_BUZZED,
+            .value = MAX_BUZZED
+        };
 
         ps.setRandomSituation();
         return ps;
@@ -49,8 +59,14 @@ pub const PartyState = struct {
     }
 
     pub fn update(self: *@This(), state: *statemachine.StateMachine, pl: *const gamepad.GamePad) void {
+        // init buzz bar value 
+        buzzedBar.value = state.buzzing;
+        // draw the buzzed bar
+        buzzedBar.draw();
+
         w4.DRAW_COLORS.* = 0x24;
         w4.text("PARTY", 0, 0);
+        w4.text("FECKLESS", SCREEN_SIZE - (8 * 8), 18);
         self.handleInput(state, pl);
         self.prompt.update();
 
