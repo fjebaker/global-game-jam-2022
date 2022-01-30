@@ -4,7 +4,9 @@ const w4 = @import("../wasm4.zig");
 const statemachine = @import("../state-machine.zig");
 const std = @import("std");
 const Situation = @import("../components/situation.zig").Situation;
+const sprites = @import("../assets/sprites.zig");
 
+var start_ticks: u32 = 0;
 const all_situations = @import("../assets/presscon-situations.zig").all_press_conference_situations;
 
 pub const PressState = struct {
@@ -48,6 +50,63 @@ pub const PressState = struct {
         self.prompt.disallow = disallowed[self.round];
         self.handleInput(state, pl);
         self.prompt.update();
+
+        var xOff: u32 = 0;
+        if (start_ticks % 20 > 10) {
+        xOff = 16;
+        }
+
+        w4.DRAW_COLORS.* = 0x0432;
+        w4.blitSub(sprites.guest.data, 20, 70, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags);
+
+        w4.blitSub(sprites.guest.data, 20, 30, // x, y
+        sprites.guest.height, sprites.guest.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.guest.width, // Assumes stride and width are equal
+        sprites.guest.flags);
+
+        w4.DRAW_COLORS.* = 0x0432;
+        w4.blitSub(sprites.boris.data, 50, 50, // x, y
+        sprites.boris.height, sprites.boris.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.boris.width, // Assumes stride and width are equal
+        sprites.boris.flags);
+
+        w4.blitSub(sprites.press.data, 80, 30, // x, y
+        sprites.press.height, sprites.press.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.press.width, // Assumes stride and width are equal
+        sprites.press.flags|0x2);
+
+        w4.blitSub(sprites.press.data, 110, 40, // x, y
+        sprites.press.height, sprites.press.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.press.width, // Assumes stride and width are equal
+        sprites.press.flags|0x2);
+
+        w4.blitSub(sprites.press.data, 90, 50, // x, y
+        sprites.press.height, sprites.press.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.press.width, // Assumes stride and width are equal
+        sprites.press.flags|0x2);
+
+        w4.blitSub(sprites.press.data, 110, 60, // x, y
+        sprites.press.height, sprites.press.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.press.width, // Assumes stride and width are equal
+        sprites.press.flags|0x2);
+
+        w4.blitSub(sprites.press.data, 80, 70, // x, y
+        sprites.press.height, sprites.press.height, // w, h; Assumes square
+        xOff, 0, // src_x, src_y
+        sprites.press.width, // Assumes stride and width are equal
+        sprites.press.flags|0x2);
+
+        start_ticks += 1;
     }
 
     pub fn setRandomSituation(self: *@This()) void {
