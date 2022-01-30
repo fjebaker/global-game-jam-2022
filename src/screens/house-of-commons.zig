@@ -101,7 +101,7 @@ pub const Parliament = struct {
             // reset states
             self.reset();
             // go back to the party
-            state.screen = .ROUND_DONE;
+            state.change(.ROUND_DONE);
         }
     }
 
